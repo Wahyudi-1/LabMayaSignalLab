@@ -309,10 +309,10 @@
                     </div>
 
                     <!-- TAB: LAB MAYA -->
-                    <div id="tab-lab" class="tab-pane hidden h-full flex flex-col gap-3 fade-in overflow-hidden">
+                    <div id="tab-lab" class="tab-pane hidden flex flex-col gap-4 fade-in pb-8">
                         
                         <!-- Top Panel: Canvas Area (Sirkuit & Osiloskop Bersebelahan) -->
-                        <div class="flex-1 w-full rounded-lg border border-charcoal overflow-hidden flex flex-col relative bg-[#0b1121] shadow-2xl min-h-[250px]" id="canvas-container">
+                        <div class="w-full rounded-lg border border-charcoal overflow-hidden flex flex-col relative bg-[#0b1121] shadow-2xl h-[400px] md:h-[500px] shrink-0" id="canvas-container">
                             <div class="bg-slate/80 backdrop-blur border-b border-charcoal p-1.5 flex justify-between items-center z-10 shrink-0 absolute top-0 w-full left-0">
                                 <span class="text-[10px] font-bold text-gray-300 flex items-center tracking-widest">
                                     <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse mr-1.5"></span>
@@ -342,10 +342,10 @@
                         </div>
 
                         <!-- Bottom Panel: Dashboard & Controls (Optimized Horizontal Row) -->
-                        <div class="flex flex-row gap-3 shrink-0 h-[140px] w-full">
+                        <div class="flex flex-col lg:flex-row gap-3 shrink-0 min-h-[140px] w-full">
                             
                             <!-- Realtime Dashboard (Left) -->
-                            <div class="w-80 bg-slate rounded-lg border border-charcoal p-2 flex flex-col justify-between shadow-lg relative overflow-hidden shrink-0">
+                            <div class="w-full lg:w-80 bg-slate rounded-lg border border-charcoal p-2 flex flex-col justify-between shadow-lg relative overflow-hidden shrink-0 min-h-[140px]">
                                 <!-- Background alert for saturation -->
                                 <div id="sat-warning-bg" class="absolute inset-0 bg-satred opacity-0 transition-opacity duration-300 z-0"></div>
                                 
@@ -388,7 +388,7 @@
                             </div>
 
                             <!-- Controls Panel (Right) -->
-                            <div class="flex-1 bg-slate rounded-lg border border-charcoal p-2.5 shadow-lg grid grid-cols-3 gap-3">
+                            <div class="flex-1 bg-slate rounded-lg border border-charcoal p-2.5 shadow-lg grid grid-cols-1 sm:grid-cols-3 gap-3 min-h-[140px]">
                                 
                                 <!-- Divider Controls -->
                                 <div class="space-y-1">
