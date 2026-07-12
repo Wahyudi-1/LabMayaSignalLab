@@ -4,36 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Lab: Pengondisi Sinyal Sensor Robotik</title>
-    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        navy: '#020617',     /* Darker navy for better contrast */
-                        slate: '#0f172a',    /* Deeper slate */
-                        cyan: '#00F0FF',     /* True neon cyan */
-                        magenta: '#FF003C',  /* Cyberpunk magenta/pink */
-                        charcoal: '#1e293b',
-                        satred: '#FF2A2A'
+                        navy: '#0F172A',
+                        slate: '#1E293B',
+                        cyan: '#06B6D4',
+                        magenta: '#D946EF',
+                        charcoal: '#334155',
+                        satred: '#EF4444'
                     },
                     fontFamily: {
-                        sans: ['Inter', 'Segoe UI', 'Roboto', 'sans-serif'],
-                        mono: ['Fira Code', 'Courier New', 'monospace'],
-                    },
-                    boxShadow: {
-                        'neon-cyan': '0 0 10px rgba(0,240,255,0.3), 0 0 20px rgba(0,240,255,0.1)',
-                        'neon-magenta': '0 0 10px rgba(255,0,60,0.3), 0 0 20px rgba(255,0,60,0.1)',
-                        'glass': '0 4px 30px rgba(0, 0, 0, 0.5)',
+                        sans: ['Inter', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
-
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         body {
             background-color: #000;
@@ -50,168 +44,166 @@
         /* 16:9 App Wrapper strictly enforces aspect ratio */
         .app-wrapper {
             width: 100vw;
-            height: 56.25vw;
+            height: 56.25vw; /* 16:9 aspect ratio */
             max-height: 100vh;
-            max-width: 177.78vh;
-            background-color: #020617;
+            max-width: 177.78vh; /* 16:9 aspect ratio */
+            background-color: #0F172A; /* Deep Navy */
             position: relative;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 0 80px rgba(0, 240, 255, 0.05);
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.1);
             overflow: hidden;
         }
 
-        /* Dynamic Blueprint Grid Background */
-        .bg-grid {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(to right, rgba(30, 41, 59, 0.4) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(30, 41, 59, 0.4) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: 0;
-            mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
-            pointer-events: none;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1E293B; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
         }
 
-        /* Glassmorphism Panel Base */
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Custom Scrollbar (Sleeker) */
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #00F0FF; box-shadow: 0 0 5px #00F0FF; }
-
-        /* Range Slider Styling - Cyberpunk Vibe */
+        /* Range Slider Styling */
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
             background: transparent;
-            height: 20px;
         }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 16px;
-            width: 16px;
+            height: 14px;
+            width: 14px;
             border-radius: 50%;
-            background: #00F0FF;
+            background: #06B6D4;
             cursor: pointer;
-            margin-top: -6px;
-            box-shadow: 0 0 10px rgba(0,240,255,0.8), 0 0 20px rgba(0,240,255,0.4);
-            border: 2px solid #fff;
-            transition: transform 0.1s;
+            margin-top: -5px;
+            box-shadow: 0 0 8px rgba(6,182,212,0.5);
         }
-        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
-        
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
             height: 4px;
             cursor: pointer;
-            background: rgba(30, 41, 59, 0.8);
+            background: #334155;
             border-radius: 2px;
-            border: 1px solid rgba(255,255,255,0.1);
         }
-        input[type=range]:focus { outline: none; }
+        input[type=range]:focus {
+            outline: none;
+        }
         
         .slider-magenta::-webkit-slider-thumb {
-            background: #FF003C;
-            box-shadow: 0 0 10px rgba(255,0,60,0.8), 0 0 20px rgba(255,0,60,0.4);
+            background: #D946EF;
+            box-shadow: 0 0 8px rgba(217,70,239,0.5);
         }
-
-        /* Scanline Overlay for Canvas */
-        .scanlines {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
-            background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 15;
-            opacity: 0.5;
+        
+        /* Volume Slider Customization */
+        #slider-volume::-webkit-slider-thumb {
+            height: 10px;
+            width: 10px;
+            margin-top: -3px;
+            box-shadow: none;
         }
 
         /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        
-        @keyframes pulse-border { 0% { border-color: rgba(0,240,255,0.2); } 50% { border-color: rgba(0,240,255,0.8); box-shadow: 0 0 15px rgba(0,240,255,0.2); } 100% { border-color: rgba(0,240,255,0.2); } }
-        .pulse-border-active { animation: pulse-border 2s infinite; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
 
         /* Sidebar Transition */
-        #sidebar { transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .sidebar-collapsed { width: 4.5rem !important; }
-        .sidebar-collapsed .nav-text { opacity: 0; display: none; }
-        
-        /* Table Styling Modernized */
-        table { border-collapse: separate; border-spacing: 0 4px; width: 100%; }
-        th, td { padding: 10px 8px; text-align: center; font-size: 0.875rem; border-top: 1px solid rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.02); }
-        th { background-color: rgba(30, 41, 59, 0.8); color: #00F0FF; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; border:none; }
-        tr td:first-child { border-left: 1px solid rgba(255,255,255,0.02); border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
-        tr td:last-child { border-right: 1px solid rgba(255,255,255,0.02); border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
-        
-        .box-info {
-            background: linear-gradient(135deg, rgba(30,41,59,0.7) 0%, rgba(15,23,42,0.7) 100%);
-            border-left: 4px solid #00F0FF;
-            backdrop-filter: blur(4px);
+        #sidebar {
+            transition: width 0.3s ease;
+        }
+        .sidebar-collapsed {
+            width: 4rem !important; /* 64px */
+        }
+        .sidebar-collapsed .nav-text {
+            display: none;
         }
         
-        #canvas-container { background-color: #050B14; } /* Deepest dark for canvas */
+        /* Table Styling */
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #334155; padding: 8px; text-align: center; font-size: 0.875rem; }
+        th { background-color: #1E293B; color: #06B6D4; }
+        
+        .box-info {
+            background: linear-gradient(135deg, rgba(30,41,59,1) 0%, rgba(15,23,42,1) 100%);
+            border-left: 4px solid #06B6D4;
+        }
+        
+        #canvas-container {
+            position: relative;
+            background-color: #0b1121;
+        }
+        
+        /* Custom styling for internal simulation scroll */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #06B6D4;
+        }
     </style>
 </head>
 <body>
 
+    <!-- AUDIO ELEMENT UNTUK BGM (Ganti src dengan URL musik pilihan Anda) -->
+    <audio id="bg-music" loop>
+        <!-- Menggunakan musik ambient instrumental yang cocok untuk konsentrasi (Royalty Free URL) -->
+        <source src="bgm.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- MAIN APPLICATION WRAPPER STRICTLY 16:9 -->
     <div class="app-wrapper relative">
-        <div class="bg-grid"></div> <!-- Added Grid Background -->
 
         <!-- CUSTOM OVERLAY MODAL -->
-        <div id="custom-modal" class="absolute inset-0 bg-navy/90 backdrop-blur-md z-[100] hidden flex items-center justify-center">
-            <div class="glass-panel p-6 rounded-2xl border border-cyan/30 w-96 shadow-[0_0_40px_rgba(0,240,255,0.15)] transform scale-95 transition-transform duration-300" id="modal-box">
-                <h3 class="text-xl font-bold text-white mb-2 flex items-center" id="modal-title">
-                    <svg class="w-5 h-5 text-cyan mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Pemberitahuan
-                </h3>
+        <div id="custom-modal" class="absolute inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center">
+            <div class="bg-slate p-6 rounded-xl border border-charcoal w-96 shadow-2xl transform scale-95 transition-transform duration-300" id="modal-box">
+                <h3 class="text-lg font-bold text-white mb-2" id="modal-title">Pemberitahuan</h3>
                 <p class="text-sm text-gray-300 mb-6 leading-relaxed" id="modal-message">Pesan peringatan di sini...</p>
                 <div class="flex justify-end gap-3" id="modal-buttons">
-                    <button id="modal-btn-cancel" class="px-5 py-2 bg-charcoal/80 text-white text-xs font-semibold rounded-lg hover:bg-gray-600 transition-colors border border-gray-600">Batal</button>
-                    <button id="modal-btn-confirm" class="px-5 py-2 bg-cyan text-navy font-bold text-xs rounded-lg hover:bg-cyan-400 hover:shadow-neon-cyan transition-all transform active:scale-95">Yakin</button>
+                    <button id="modal-btn-cancel" class="px-4 py-2 bg-charcoal text-white text-xs font-semibold rounded hover:bg-gray-600 transition-colors">Batal</button>
+                    <button id="modal-btn-confirm" class="px-4 py-2 bg-cyan text-navy font-bold text-xs rounded hover:bg-cyan-500 transition-colors">Yakin</button>
                 </div>
             </div>
         </div>
 
         <!-- LOGIN SCREEN -->
-        <div id="login-screen" class="absolute inset-0 z-50 flex flex-col justify-between overflow-y-auto custom-scrollbar">
-            <div class="flex-1 flex items-center justify-center p-6 relative">
-                <!-- Glowing orb behind login -->
-                <div class="absolute w-96 h-96 bg-cyan rounded-full mix-blend-screen filter blur-[120px] opacity-10 animate-pulse"></div>
-                
-                <div class="glass-panel p-10 rounded-2xl shadow-2xl w-[400px] border border-cyan/20 fade-in relative z-10">
-                    <div class="flex items-center justify-center mb-2">
-                        <div class="p-3 bg-cyan/10 rounded-xl mr-4 border border-cyan/30 shadow-neon-cyan">
-                            <svg class="w-8 h-8 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
-                        </div>
-                        <h1 class="text-4xl font-extrabold text-white tracking-tight">Signal<span class="text-cyan drop-shadow-[0_0_8px_rgba(0,240,255,0.8)]">Lab</span></h1>
+        <div id="login-screen" class="absolute inset-0 bg-navy z-50 flex flex-col justify-between overflow-y-auto custom-scrollbar">
+            <div class="flex-1 flex items-center justify-center p-6">
+                <div class="bg-slate p-8 rounded-xl shadow-2xl w-96 border border-charcoal fade-in">
+                    <div class="flex items-center justify-center mb-6">
+                        <svg class="w-10 h-10 text-cyan mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                        <h1 class="text-2xl font-bold text-white">Signal<span class="text-cyan">Lab</span></h1>
                     </div>
-                    <p class="text-xs text-cyan/70 text-center mb-8 uppercase tracking-widest font-mono">Environment Status: Ready</p>
+                    <p class="text-sm text-gray-400 text-center mb-6">Silakan ketikkan identitas untuk memulai.</p>
                     
-                    <div class="space-y-5">
-                        <div class="group">
-                            <label class="block text-[10px] uppercase tracking-wider font-semibold text-gray-400 mb-1 group-focus-within:text-cyan transition-colors">Nama Operator</label>
-                            <input type="text" id="login-nama" class="w-full bg-navy/50 border border-charcoal rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-cyan focus:ring-1 focus:ring-cyan transition-all" placeholder="Masukkan nama..." autocomplete="off">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 mb-1">Nama Lengkap</label>
+                            <input type="text" id="login-nama" class="w-full bg-navy border border-charcoal rounded px-3 py-2 text-white focus:outline-none focus:border-cyan transition-colors" placeholder="Masukkan nama..." autocomplete="off">
                         </div>
-                        <div class="group">
-                            <label class="block text-[10px] uppercase tracking-wider font-semibold text-gray-400 mb-1 group-focus-within:text-cyan transition-colors">Asal Institusi/Sekolah</label>
-                            <input type="text" id="login-sekolah" class="w-full bg-navy/50 border border-charcoal rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-cyan focus:ring-1 focus:ring-cyan transition-all" placeholder="Nama instansi..." autocomplete="off">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 mb-1">Asal Sekolah</label>
+                            <input type="text" id="login-sekolah" class="w-full bg-navy border border-charcoal rounded px-3 py-2 text-white focus:outline-none focus:border-cyan transition-colors" placeholder="Nama sekolah..." autocomplete="off">
                         </div>
-                        <button id="btn-login" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-3 px-4 rounded-lg transition-all mt-6 shadow-lg hover:shadow-neon-cyan transform active:scale-[0.98] opacity-50 cursor-not-allowed" disabled>
-                            INISIALISASI LAB
+                        <button id="btn-login" class="w-full bg-cyan hover:bg-cyan-600 text-navy font-bold py-2 px-4 rounded transition-colors mt-4 opacity-50 cursor-not-allowed" disabled>
+                            Masuk Laboratorium
                         </button>
                     </div>
                 </div>
@@ -219,257 +211,266 @@
         </div>
 
         <!-- APP CONTENT WRAPPER -->
-        <div id="app-screen" class="absolute inset-0 flex hidden z-10">
+        <div id="app-screen" class="absolute inset-0 flex hidden">
             
             <!-- SIDEBAR -->
-            <div id="sidebar" class="w-64 glass-panel border-r border-white/5 flex flex-col z-20 shrink-0">
-                <div class="h-16 flex items-center justify-between px-5 border-b border-white/5 shrink-0">
+            <div id="sidebar" class="w-64 bg-slate border-r border-charcoal flex flex-col z-20 shrink-0">
+                <div class="h-14 flex items-center justify-between px-4 border-b border-charcoal shrink-0">
                     <div class="flex items-center nav-text overflow-hidden whitespace-nowrap">
-                        <svg class="w-6 h-6 text-cyan mr-2 filter drop-shadow-[0_0_5px_rgba(0,240,255,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        <span class="font-extrabold text-white text-lg tracking-tight">Signal<span class="text-cyan">Lab</span></span>
+                        <svg class="w-6 h-6 text-cyan mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <span class="font-bold text-white text-sm">Signal<span class="text-cyan">Lab</span></span>
                     </div>
-                    <button id="btn-toggle-sidebar" class="text-gray-400 hover:text-cyan transition-colors p-1 rounded-md hover:bg-white/5" title="Sembunyikan/Tampilkan Menu">
+                    <button id="btn-toggle-sidebar" class="text-gray-400 hover:text-white" title="Sembunyikan/Tampilkan Menu">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
                 </div>
                 
-                <div class="flex-1 overflow-y-auto py-4 space-y-2 px-3 custom-scrollbar" id="nav-menus">
+                <div class="flex-1 overflow-y-auto py-3 space-y-1.5 px-2 custom-scrollbar" id="nav-menus">
                     <!-- Nav Items generated by JS -->
                 </div>
             </div>
 
             <!-- MAIN CONTENT AREA -->
-            <div class="flex-1 flex flex-col overflow-hidden relative">
+            <div class="flex-1 flex flex-col overflow-hidden bg-navy">
                 
                 <!-- HEADER -->
-                <header class="h-16 glass-panel border-b border-white/5 flex items-center justify-between px-6 z-10 shrink-0">
+                <header class="h-14 bg-slate/50 border-b border-charcoal flex items-center justify-between px-6 backdrop-blur-sm z-10 shrink-0">
                     <div>
-                        <h2 class="text-sm font-bold text-white tracking-wide">Eksplorasi Pengondisi Sinyal Sensor</h2>
-                        <p class="text-[10px] text-cyan/70 font-mono uppercase tracking-widest mt-0.5">Pembagi Tegangan & Op-Amp (Non-Inverting)</p>
+                        <h2 class="text-base font-semibold text-white">Eksplorasi Pengondisi Sinyal Sensor</h2>
+                        <p class="text-[10px] text-gray-400">Pembagi Tegangan & Penguat Operasional (Op-Amp)</p>
                     </div>
                     
-                    <div class="flex items-center">
-                        <!-- BGM Controls -->
-                        <div class="flex items-center space-x-3 mr-5 border-r border-white/10 pr-5">
-                            <button id="btn-bgm" class="text-gray-400 hover:text-cyan transition-all transform hover:scale-110 focus:outline-none" title="Putar/Hentikan Musik Latar">
-                                <svg id="icon-bgm-play" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6l5 5v11a2 2 0 01-2 2h-6l-5-5H7a2 2 0 01-2-2v-2"></path></svg>
-                                <svg id="icon-bgm-mute" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clip-rule="evenodd"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path></svg>
+                    <div class="flex items-center space-x-3">
+                        
+                        <!-- AUDIO KONTROL (Play/Pause & Volume) -->
+                        <div class="hidden md:flex items-center space-x-2 mr-2 border-r border-charcoal pr-4">
+                            <button id="btn-music" class="text-gray-400 hover:text-cyan transition-colors focus:outline-none" title="Nyalakan/Matikan Musik BGM">
+                                <!-- Ikon Musik Nyala -->
+                                <svg id="icon-music-on" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                                <!-- Ikon Musik Mati -->
+                                <svg id="icon-music-off" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path></svg>
                             </button>
-                            <input type="range" id="slider-bgm-vol" min="0" max="1" step="0.01" value="0.3" class="hidden md:block w-16" title="Volume Musik Latar">
+                            <input type="range" id="slider-volume" min="0" max="1" step="0.05" value="0.3" class="w-16 h-1 bg-charcoal rounded-lg cursor-pointer" title="Volume Musik">
                         </div>
 
-                        <div class="text-right hidden md:block mr-3">
-                            <div id="user-display-name" class="text-xs font-bold text-white">Nama Siswa</div>
-                            <div id="user-display-school" class="text-[9px] text-gray-400 font-mono">Asal Sekolah</div>
+                        <!-- Info User -->
+                        <div class="text-right hidden md:block">
+                            <div id="user-display-name" class="text-xs font-medium text-cyan">Nama Siswa</div>
+                            <div id="user-display-school" class="text-[10px] text-gray-400">Asal Sekolah</div>
                         </div>
-                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white text-sm font-bold shadow-neon-cyan shrink-0" id="user-avatar">
+                        <div class="w-7 h-7 rounded-full bg-charcoal flex items-center justify-center text-white text-xs font-bold border border-cyan shrink-0" id="user-avatar">
                             A
                         </div>
-                        <button id="btn-logout" class="ml-4 text-gray-400 hover:text-satred transition-colors p-1.5 rounded-lg hover:bg-red-500/10" title="Keluar & Reset Data">
+                        <button id="btn-logout" class="ml-1 text-gray-400 hover:text-satred transition-colors" title="Keluar & Reset Data">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                         </button>
                     </div>
                 </header>
 
                 <!-- TAB CONTENTS -->
-                <main class="flex-1 overflow-y-auto p-4 md:p-6 relative custom-scrollbar flex flex-col z-0">
+                <main class="flex-1 overflow-y-auto p-4 md:p-5 relative custom-scrollbar flex flex-col">
                     
                     <!-- TAB: TEORI -->
                     <div id="tab-teori" class="tab-pane hidden max-w-4xl mx-auto fade-in pb-10 w-full">
-                        <div class="glass-panel p-8 rounded-2xl">
-                            <h3 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan to-blue-400 mb-6 border-b border-white/10 pb-4">Teori Dasar Pengondisi Sinyal</h3>
+                        <h3 class="text-xl font-bold text-white mb-4 border-b border-charcoal pb-2">Teori Dasar Pengondisi Sinyal</h3>
+                        
+                        <div class="space-y-3 text-gray-300 text-justify leading-relaxed text-sm">
+                            <p>Sebagian besar sensor pada robotika bersifat resistif, artinya nilai hambatan internalnya berubah berdasarkan besaran fisik yang diterima (seperti LDR terhadap cahaya atau termistor terhadap suhu). Mikrokontroler tidak dapat membaca perubahan hambatan secara langsung, melainkan hanya dapat membaca perubahan tegangan.</p>
                             
-                            <div class="space-y-4 text-gray-300 text-justify leading-relaxed text-sm">
-                                <p>Sebagian besar sensor pada robotika bersifat resistif, artinya nilai hambatan internalnya berubah berdasarkan besaran fisik yang diterima (seperti LDR terhadap cahaya atau termistor terhadap suhu). Mikrokontroler tidak dapat membaca perubahan hambatan secara langsung, melainkan hanya dapat membaca perubahan tegangan.</p>
-                                
-                                <p>Oleh karena itu, diperlukan rangkaian <strong>Pembagi Tegangan (Voltage Divider)</strong> untuk mengubah variasi hambatan sensor menjadi variasi tegangan analog (V<sub>out1</sub>). Namun, rentang tegangan keluaran dari pembagi tegangan sering kali terlalu sempit atau terlalu lemah (impedansi tinggi) untuk diproses oleh pin ADC mikrokontroler secara akurat.</p>
+                            <p>Oleh karena itu, diperlukan rangkaian <strong>Pembagi Tegangan (Voltage Divider)</strong> untuk mengubah variasi hambatan sensor menjadi variasi tegangan analog (V<sub>out1</sub>). Namun, rentang tegangan keluaran dari pembagi tegangan sering kali terlalu sempit atau terlalu lemah (impedansi tinggi) untuk diproses oleh pin ADC mikrokontroler secara akurat.</p>
 
-                                <div class="box-info p-5 rounded-xl my-6 shadow-lg border border-cyan/20 relative overflow-hidden">
-                                    <div class="absolute top-0 right-0 w-32 h-32 bg-cyan/5 rounded-full blur-2xl -mr-10 -mt-10"></div>
-                                    <h4 class="font-bold text-cyan mb-2 text-sm flex items-center"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>Rumus Pembagi Tegangan</h4>
-                                    <p class="mb-3 text-xs text-gray-400">Tegangan Output Rangkaian Pembagi Tegangan (V<sub>out1</sub>) dihitung dengan:</p>
-                                    <div class="text-center text-xl py-3 text-white font-mono bg-navy/80 rounded-lg border border-charcoal shadow-inner inline-block px-8 relative z-10">
-                                        V<sub>out1</sub> = V<sub>in</sub> &times; [ R<sub>2</sub> / (R<sub>1</sub> + R<sub>2</sub>) ]
-                                    </div>
+                            <div class="box-info p-4 rounded-lg my-4 shadow-lg">
+                                <h4 class="font-bold text-cyan mb-2 text-sm">Rumus Pembagi Tegangan</h4>
+                                <p class="mb-2 text-xs">Tegangan Output Rangkaian Pembagi Tegangan (V<sub>out1</sub>) dihitung dengan:</p>
+                                <div class="text-center text-lg my-2 text-white font-mono bg-navy p-2 rounded border border-charcoal inline-block mx-auto">
+                                    V<sub>out1</sub> = V<sub>in</sub> &times; [ R<sub>2</sub> / (R<sub>1</sub> + R<sub>2</sub>) ]
                                 </div>
+                            </div>
 
-                                <p>Untuk mengatasi kelemahan sinyal yang lemah, digunakan rangkaian <strong>Penguat (Amplifier)</strong> berbasis <em>Operational Amplifier</em> (Op-Amp) dengan konfigurasi <em>Non-Inverting Amplifier</em>. Penguat ini berfungsi menaikkan amplitudo sinyal analog tanpa membalik polaritasnya, sehingga sensitivitas pembacaan sensor pada robot meningkat tajam.</p>
+                            <p>Untuk mengatasi kelemahan sinyal yang lemah, digunakan rangkaian <strong>Penguat (Amplifier)</strong> berbasis <em>Operational Amplifier</em> (Op-Amp) dengan konfigurasi <em>Non-Inverting Amplifier</em>. Penguat ini berfungsi menaikkan amplitudo sinyal analog tanpa membalik polaritasnya, sehingga sensitivitas pembacaan sensor pada robot meningkat tajam.</p>
 
-                                <div class="box-info p-5 rounded-xl my-6 border-l-4 border-magenta shadow-lg relative overflow-hidden border-t border-r border-b border-magenta/20">
-                                    <div class="absolute top-0 right-0 w-32 h-32 bg-magenta/5 rounded-full blur-2xl -mr-10 -mt-10"></div>
-                                    <h4 class="font-bold text-magenta mb-2 text-sm flex items-center"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>Rumus Penguat Non-Inverting (Op-Amp)</h4>
-                                    <p class="mb-3 text-xs text-gray-400">Faktor Penguatan Tegangan (Gain, A<sub>v</sub>):</p>
-                                    <div class="text-center text-xl py-2 text-white font-mono bg-navy/80 rounded-lg border border-charcoal inline-block px-8 mb-4">
-                                        A<sub>v</sub> = 1 + (R<sub>f</sub> / R<sub>g</sub>)
-                                    </div>
-                                    <p class="mb-3 text-xs text-gray-400 border-t border-white/10 pt-4">Tegangan Output Akhir setelah Penguatan (V<sub>out2</sub>):</p>
-                                    <div class="text-center text-xl py-2 text-white font-mono bg-navy/80 rounded-lg border border-charcoal inline-block px-8">
-                                        V<sub>out2</sub> = V<sub>out1</sub> &times; A<sub>v</sub>
-                                    </div>
+                            <div class="box-info p-4 rounded-lg my-4 border-l-4 border-magenta shadow-lg">
+                                <h4 class="font-bold text-magenta mb-2 text-sm">Rumus Penguat Non-Inverting (Op-Amp)</h4>
+                                <p class="mb-2 text-xs">Faktor Penguatan Tegangan (Gain, A<sub>v</sub>):</p>
+                                <div class="text-center text-lg my-2 text-white font-mono">
+                                    A<sub>v</sub> = 1 + (R<sub>f</sub> / R<sub>g</sub>)
                                 </div>
+                                <p class="mt-3 mb-2 border-t border-charcoal pt-3 text-xs">Tegangan Output Akhir setelah Penguatan (V<sub>out2</sub>) yang masuk ke ADC:</p>
+                                <div class="text-center text-lg my-2 text-white font-mono">
+                                    V<sub>out2</sub> = V<sub>out1</sub> &times; A<sub>v</sub>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate p-3 rounded mt-4 text-xs">
+                                <h5 class="font-bold text-white mb-2">Keterangan Variabel:</h5>
+                                <ul class="grid grid-cols-2 gap-2">
+                                    <li><span class="text-cyan">V<sub>in</sub></span> = Tegangan input sumber (Volt)</li>
+                                    <li><span class="text-cyan">R<sub>1</sub></span> = Resistor tetap linier (&Omega;)</li>
+                                    <li><span class="text-cyan">R<sub>2</sub></span> = Resistor sensor/variabel (&Omega;)</li>
+                                    <li><span class="text-cyan">V<sub>out1</sub></span> = Tegangan output pembagi (Volt)</li>
+                                    <li><span class="text-magenta">R<sub>f</sub></span> = Resistor umpan balik / feedback (&Omega;)</li>
+                                    <li><span class="text-magenta">R<sub>g</sub></span> = Resistor pembumian / ground (&Omega;)</li>
+                                    <li><span class="text-magenta">A<sub>v</sub></span> = Faktor kelipatan penguatan</li>
+                                    <li><span class="text-magenta">V<sub>out2</sub></span> = Tegangan output akhir ke ADC (Volt)</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
 
                     <!-- TAB: PROSEDUR -->
                     <div id="tab-prosedur" class="tab-pane hidden max-w-4xl mx-auto fade-in pb-10 w-full">
-                        <div class="glass-panel p-8 rounded-2xl">
-                            <h3 class="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan to-blue-400 mb-6 border-b border-white/10 pb-4">Prosedur Kerja Praktikum</h3>
-                            <div class="bg-navy/40 rounded-xl p-6 border border-white/5 shadow-inner">
-                                <ol class="list-decimal list-inside space-y-4 text-gray-300 text-sm leading-relaxed">
-                                    <li class="pl-2">Buka menu <strong class="text-white">Lab Maya</strong> untuk memulai simulasi sirkuit instruksional.</li>
-                                    <li class="pl-2">Ikuti petunjuk awal dari <em class="text-cyan">Step Guide Wizard</em> yang muncul mengambang di atas kanvas simulasi.</li>
-                                    <li class="pl-2">Atur nilai tegangan sumber (<span class="text-cyan font-mono bg-cyan/10 px-1 rounded">V<sub>in</sub></span>) pada 5.0 Volt.</li>
-                                    <li class="pl-2">Kondisikan nilai Resistor Tetap (<span class="text-cyan font-mono">R<sub>1</sub></span>) dan Resistor Sensor (<span class="text-cyan font-mono">R<sub>2</sub></span>) menggunakan slider pada panel kontrol. Amati perubahan visual sinyal berwarna Cyan dan catat nilai <span class="text-cyan font-mono">V<sub>out1</sub></span>.</li>
-                                    <li class="pl-2">Pilih batas suplai daya Op-Amp (<span class="text-satred font-mono bg-red-500/10 px-1 rounded">V<sub>sat</sub></span>) pada dropdown yang tersedia.</li>
-                                    <li class="pl-2">Lakukan amplifikasi sinyal dengan mengubah nilai Resistor Feedback (<span class="text-magenta font-mono">R<sub>f</sub></span>) dan Resistor Ground (<span class="text-magenta font-mono">R<sub>g</sub></span>).</li>
-                                    <li class="pl-2">Analisis visual perubahan amplitudo gelombang keluaran akhir yang berwarna <span class="text-magenta font-bold">Magenta</span>. Waspadai terjadinya <em>clipping</em> (saturasi terpotong) jika sinyal melampaui ambang <span class="text-satred font-mono">V<sub>sat</sub></span>.</li>
-                                    <li class="pl-2">Klik tombol <strong class="text-cyan bg-cyan/10 px-2 py-0.5 rounded border border-cyan/30">Catat Data ke Tabel</strong> untuk merekam state variabel saat ini.</li>
-                                    <li class="pl-2">Ulangi langkah 4-8 secara iteratif dengan berbagai kombinasi untuk mendapatkan minimal 5 dataset pengamatan.</li>
-                                    <li class="pl-2">Navigasi ke menu <strong class="text-white">Pengumpulan Data</strong> untuk peninjauan, lalu selesaikan studi kasus di <strong class="text-white">Panduan Analisis</strong> guna men-generate Laporan akhir.</li>
-                                </ol>
-                            </div>
+                        <h3 class="text-xl font-bold text-white mb-4 border-b border-charcoal pb-2">Prosedur Kerja Praktikum</h3>
+                        <div class="bg-slate rounded-lg p-5 border border-charcoal">
+                            <ol class="list-decimal list-inside space-y-3 text-gray-300 text-sm">
+                                <li class="pl-2">Buka menu <strong>Lab Maya</strong> untuk memulai simulasi sirkuit.</li>
+                                <li class="pl-2">Ikuti petunjuk awal dari <em>Step Guide Wizard</em> yang muncul di atas kanvas simulasi.</li>
+                                <li class="pl-2">Atur nilai tegangan sumber (<span class="text-cyan">V<sub>in</sub></span>) pada 5.0 Volt.</li>
+                                <li class="pl-2">Atur nilai Resistor Tetap (<span class="text-cyan">R<sub>1</sub></span>) dan Resistor Sensor (<span class="text-cyan">R<sub>2</sub></span>) menggunakan slider pada panel kontrol. Amati perubahan visual sinyal berwarna Cyan dan catat nilai <span class="text-cyan">V<sub>out1</sub></span>.</li>
+                                <li class="pl-2">Atur batas catu daya Op-Amp (<span class="text-satred">V<sub>sat</sub></span>) pada dropdown yang tersedia.</li>
+                                <li class="pl-2">Lakukan amplifikasi sinyal dengan mengubah nilai Resistor Feedback (<span class="text-magenta">R<sub>f</sub></span>) dan Resistor Ground (<span class="text-magenta">R<sub>g</sub></span>).</li>
+                                <li class="pl-2">Amati perubahan amplitudo gelombang keluaran akhir yang berwarna Magenta. Perhatikan apakah terjadi <em>clipping</em> (saturasi) jika sinyal melebihi <span class="text-satred">V<sub>sat</sub></span>.</li>
+                                <li class="pl-2">Klik tombol <strong>"Catat Data ke Tabel"</strong> untuk merekam state variabel saat ini.</li>
+                                <li class="pl-2">Ulangi langkah 4-8 dengan berbagai kombinasi variabel untuk mendapatkan minimal 5 baris data pengamatan.</li>
+                                <li class="pl-2">Buka menu <strong>Pengumpulan Data</strong> untuk meninjau hasil, kemudian jawab pertanyaan mendalam pada menu <strong>Panduan Analisis</strong> untuk men-generate Laporan Doc.</li>
+                            </ol>
                         </div>
                     </div>
 
                     <!-- TAB: LAB MAYA -->
                     <div id="tab-lab" class="tab-pane hidden flex flex-col gap-4 fade-in pb-2 flex-1 w-full">
                         
-                        <!-- Top Panel: Canvas Area -->
-                        <div class="w-full rounded-2xl border border-cyan/20 overflow-hidden flex flex-col relative shadow-[0_0_30px_rgba(0,240,255,0.08)] flex-1 min-h-[300px]" id="canvas-container">
-                            <div class="scanlines"></div> <!-- CRT Scanline Effect -->
-                            
-                            <!-- HUD Header -->
-                            <div class="bg-slate/80 backdrop-blur-md border-b border-cyan/20 p-2 flex justify-between items-center z-20 shrink-0 absolute top-0 w-full left-0 shadow-lg">
-                                <span class="text-[10px] font-bold text-cyan flex items-center tracking-widest uppercase">
-                                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse mr-2 shadow-[0_0_8px_#ef4444]"></span>
-                                    Signal Lab Telemetry / Oscilloscope
+                        <!-- Top Panel: Canvas Area (Sirkuit & Osiloskop Bersebelahan) -->
+                        <div class="w-full rounded-lg border border-charcoal overflow-hidden flex flex-col relative bg-[#0b1121] shadow-2xl flex-1 min-h-[300px]" id="canvas-container">
+                            <div class="bg-slate/80 backdrop-blur border-b border-charcoal p-1.5 flex justify-between items-center z-10 shrink-0 absolute top-0 w-full left-0">
+                                <span class="text-[10px] font-bold text-gray-300 flex items-center tracking-widest">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse mr-1.5"></span>
+                                    Simulator Sirkuit & Osiloskop
                                 </span>
-                                <div class="text-[8px] font-mono text-cyan/50 tracking-widest">SYS.VER.3.1.4</div>
                             </div>
                             
-                            <div class="flex-1 w-full h-full mt-8 overflow-x-auto overflow-y-hidden custom-scrollbar relative z-10" id="canvas-scroll-wrapper">
+                            <!-- Scrollable wrapper for canvas - ensuring everything is fully reachable without crushing -->
+                            <div class="flex-1 w-full h-full mt-7 overflow-x-auto overflow-y-hidden custom-scrollbar" id="canvas-scroll-wrapper">
                                 <div class="h-full min-w-[1080px] relative pr-6">
                                     <canvas id="sim-canvas" class="w-full h-full block"></canvas>
                                     
-                                    <!-- Guide Wizard Overlay (Glassmorphism) -->
-                                    <div id="guide-wizard" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-navy/80 backdrop-blur-xl border border-cyan/40 p-4 rounded-xl shadow-[0_10px_40px_rgba(0,240,255,0.2)] w-[85%] max-w-md z-30 hidden transition-all">
-                                        <div class="flex justify-between items-center mb-2 border-b border-white/10 pb-2">
-                                            <span class="text-xs font-bold text-cyan tracking-wider uppercase flex items-center">
-                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                Instruksi <span class="text-white ml-2" id="guide-step-text">1/4</span>
-                                            </span>
-                                            <button id="btn-close-guide" class="text-gray-400 hover:text-white transition-colors bg-white/5 rounded p-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                                    <!-- Guide Wizard Overlay -->
+                                    <div id="guide-wizard" class="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-slate/95 backdrop-blur-md border border-cyan/50 p-3 rounded-lg shadow-2xl w-[80%] max-w-sm z-20 hidden">
+                                        <div class="flex justify-between items-center mb-1.5 border-b border-charcoal pb-1">
+                                            <span class="text-[10px] font-bold text-cyan tracking-wider uppercase" id="guide-step-text">Langkah 1 dari 4</span>
+                                            <button id="btn-close-guide" class="text-gray-400 hover:text-white transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
                                         </div>
-                                        <p class="text-[12px] text-gray-200 mb-4 leading-relaxed font-medium" id="guide-content">Deskripsi langkah praktikum.</p>
-                                        <div class="flex justify-between gap-3">
-                                            <button id="btn-guide-prev" class="flex-1 py-1.5 bg-white/5 border border-white/10 text-white text-[11px] font-semibold rounded-lg hover:bg-white/10 disabled:opacity-30 transition-all">Kembali</button>
-                                            <button id="btn-guide-next" class="flex-1 py-1.5 bg-cyan/90 text-navy font-bold text-[11px] rounded-lg hover:bg-cyan hover:shadow-neon-cyan transition-all transform active:scale-95">Lanjut</button>
+                                        <p class="text-[11px] text-gray-200 mb-2 leading-relaxed" id="guide-content">Deskripsi langkah praktikum.</p>
+                                        <div class="flex justify-between gap-2">
+                                            <button id="btn-guide-prev" class="flex-1 py-1 bg-navy border border-charcoal text-white text-[10px] font-medium rounded hover:bg-gray-700 disabled:opacity-50 transition-colors">Kembali</button>
+                                            <button id="btn-guide-next" class="flex-1 py-1 bg-cyan text-navy font-bold text-[10px] rounded hover:bg-cyan-500 shadow-lg shadow-cyan/20 transition-all">Lanjut</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Bottom Panel: Dashboard & Controls (Optimized Glassmorphism) -->
-                        <div class="flex flex-col lg:flex-row gap-4 shrink-0 min-h-[150px] w-full z-10">
+                        <!-- Bottom Panel: Dashboard & Controls (Optimized Horizontal Row) -->
+                        <div class="flex flex-col lg:flex-row gap-3 shrink-0 min-h-[140px] w-full">
                             
                             <!-- Realtime Dashboard (Left) -->
-                            <div class="w-full lg:w-80 glass-panel rounded-2xl border-cyan/30 p-3 flex flex-col justify-between shadow-lg relative overflow-hidden shrink-0 min-h-[150px] pulse-border-active">
-                                <div id="sat-warning-bg" class="absolute inset-0 bg-red-600 opacity-0 transition-opacity duration-300 z-0 mix-blend-multiply"></div>
+                            <div class="w-full lg:w-80 bg-slate rounded-lg border border-charcoal p-2 flex flex-col justify-between shadow-lg relative overflow-hidden shrink-0 min-h-[140px]">
+                                <!-- Background alert for saturation -->
+                                <div id="sat-warning-bg" class="absolute inset-0 bg-satred opacity-0 transition-opacity duration-300 z-0"></div>
                                 
                                 <div class="relative z-10 flex flex-col h-full justify-between">
-                                    <div class="flex justify-between items-center mb-2 border-b border-white/10 pb-1.5">
-                                        <h4 class="text-xs font-bold text-white flex items-center tracking-wider uppercase">
-                                            <svg class="w-4 h-4 mr-1.5 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                                            Live Telemetry
+                                    <div class="flex justify-between items-center mb-1 border-b border-charcoal pb-0.5">
+                                        <h4 class="text-[10px] font-bold text-white flex items-center">
+                                            <svg class="w-3.5 h-3.5 mr-1 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                            Live Monitor
                                         </h4>
-                                        <div class="text-[9px] bg-white/10 border border-white/20 px-1.5 py-0.5 rounded text-white tracking-widest font-bold font-mono" id="status-indicator">SYS: OK</div>
+                                        <div class="text-[8px] bg-charcoal px-1 py-0.2 rounded text-white tracking-wider font-semibold" id="status-indicator">STATUS: NORMAL</div>
                                     </div>
                                     
-                                    <div class="grid grid-cols-2 gap-2 mb-2">
-                                        <div class="bg-navy/80 p-1.5 rounded-lg border border-white/5 text-center shadow-inner">
-                                            <div class="text-[9px] text-gray-400 font-medium tracking-wide uppercase">V_Out 1</div>
-                                            <div class="text-sm font-mono text-cyan font-bold drop-shadow-[0_0_5px_rgba(0,240,255,0.5)]" id="disp-vout1">0.00 V</div>
+                                    <div class="grid grid-cols-2 gap-1.5 mb-1">
+                                        <div class="bg-navy p-1 rounded border border-charcoal text-center">
+                                            <div class="text-[8px] text-gray-400">Out 1 Divider</div>
+                                            <div class="text-[11px] font-mono text-cyan font-bold" id="disp-vout1">0.00 V</div>
                                         </div>
-                                        <div class="bg-navy/80 p-1.5 rounded-lg border border-white/5 text-center shadow-inner">
-                                            <div class="text-[9px] text-gray-400 font-medium tracking-wide uppercase">Gain (Av)</div>
-                                            <div class="text-sm font-mono text-white font-bold" id="disp-gain">1.00 x</div>
+                                        <div class="bg-navy p-1 rounded border border-charcoal text-center">
+                                            <div class="text-[8px] text-gray-400">Gain (Av)</div>
+                                            <div class="text-[11px] font-mono text-white font-bold" id="disp-gain">1.00 x</div>
                                         </div>
                                     </div>
                                     
-                                    <div class="grid grid-cols-2 gap-2 flex-1 items-stretch">
-                                        <div class="bg-navy/90 p-2 rounded-lg border border-magenta/30 shadow-inner flex flex-col items-center justify-center relative overflow-hidden">
-                                            <div class="absolute inset-0 bg-magenta/5"></div>
-                                            <div class="text-[9px] text-gray-400 text-center tracking-wider font-semibold z-10 relative">FINAL V_OUT 2</div>
-                                            <div class="text-xl font-mono text-magenta font-extrabold leading-none mt-1 drop-shadow-[0_0_8px_rgba(255,0,60,0.6)] z-10 relative" id="disp-vout2">0.00 V</div>
-                                            <div class="text-[9px] mt-1 text-gray-300 font-medium text-center truncate w-full z-10 relative" id="disp-status">Normal</div>
+                                    <!-- Pembagian Setengah-Setengah antara Vout2 dan Tombol Catat Data -->
+                                    <div class="grid grid-cols-2 gap-1.5 flex-1 items-stretch">
+                                        <!-- Sisi Kiri: Output Akhir (Setengah Lebar) -->
+                                        <div class="bg-navy p-1.5 rounded border border-charcoal shadow-inner flex flex-col items-center justify-center">
+                                            <div class="text-[9px] text-gray-400 text-center">Out 2 (V_out2)</div>
+                                            <div class="text-lg font-mono text-magenta font-bold leading-none mt-1" id="disp-vout2">0.00 V</div>
+                                            <div class="text-[8px] mt-0.5 text-gray-300 font-medium text-center truncate w-full" id="disp-status">Normal</div>
                                         </div>
                                         
-                                        <button id="btn-record" class="bg-gradient-to-br from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold rounded-lg shadow-lg hover:shadow-neon-cyan transition-all transform active:scale-95 flex flex-col justify-center items-center p-2 text-center border border-cyan/50">
-                                            <svg class="w-5 h-5 mb-1 filter drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
-                                            <span class="text-[11px] font-extrabold tracking-wide leading-tight uppercase">Catat Data</span>
+                                        <!-- Sisi Kanan: Tombol Catat Data -->
+                                        <button id="btn-record" class="bg-gradient-to-r from-cyan to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-navy font-bold rounded shadow-lg shadow-cyan/20 transition-all flex flex-col justify-center items-center p-1.5 text-center">
+                                            <svg class="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                                            <span class="text-[10px] font-bold leading-tight">Catat Data<br>ke Tabel</span>
                                         </button>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Controls Panel (Right) -->
-                            <div class="flex-1 glass-panel rounded-2xl border-white/10 p-4 shadow-lg grid grid-cols-1 sm:grid-cols-3 gap-5 min-h-[150px]">
+                            <div class="flex-1 bg-slate rounded-lg border border-charcoal p-2.5 shadow-lg grid grid-cols-1 sm:grid-cols-3 gap-3 min-h-[140px]">
                                 
                                 <!-- Divider Controls -->
-                                <div class="space-y-2">
-                                    <div class="text-[10px] font-bold text-cyan border-b border-cyan/20 pb-1 uppercase tracking-widest">1. Sensor / Pembagi</div>
-                                    <div class="space-y-1">
-                                        <div class="flex justify-between items-end text-[9px] text-gray-300 font-medium">
+                                <div class="space-y-1">
+                                    <div class="text-[9px] font-bold text-cyan border-b border-charcoal pb-0.5 uppercase tracking-wider">1. Pembagi Tegangan</div>
+                                    <div class="space-y-0.5">
+                                        <div class="flex justify-between text-[8px] text-gray-400">
                                             <label>Teg. Sumber (V<sub>in</sub>)</label>
-                                            <span id="val-vin" class="text-cyan font-mono bg-cyan/10 px-1.5 py-0.5 rounded border border-cyan/20">5.0 V</span>
+                                            <span id="val-vin" class="text-white font-mono bg-navy px-1 py-0.2 rounded border border-charcoal text-[8px]">5.0 V</span>
                                         </div>
                                         <input type="range" id="slider-vin" min="0" max="5" step="0.1" value="5.0">
                                     </div>
-                                    <div class="space-y-1">
-                                        <div class="flex justify-between items-end text-[9px] text-gray-300 font-medium">
-                                            <label>Resistor 1 (R<sub>1</sub>)</label>
-                                            <span id="val-r1" class="text-white font-mono bg-white/10 px-1.5 py-0.5 rounded border border-white/20">1000 &Omega;</span>
+                                    <div class="space-y-0.5">
+                                        <div class="flex justify-between text-[8px] text-gray-400">
+                                            <label>Resistor Tetap (R<sub>1</sub>)</label>
+                                            <span id="val-r1" class="text-white font-mono bg-navy px-1 py-0.2 rounded border border-charcoal text-[8px]">1000 &Omega;</span>
                                         </div>
                                         <input type="range" id="slider-r1" min="100" max="10000" step="100" value="1000">
                                     </div>
                                 </div>
 
                                 <!-- Sensor & Vsat -->
-                                <div class="space-y-2">
-                                    <div class="text-[10px] font-bold text-cyan border-b border-cyan/20 pb-1 uppercase tracking-widest opacity-0 select-none hidden sm:block">.</div>
-                                    <div class="space-y-1">
-                                        <div class="flex justify-between items-end text-[9px] text-gray-300 font-medium">
-                                            <label class="text-yellow-400">Sensor LDR (R<sub>2</sub>)</label>
-                                            <span id="val-r2" class="text-yellow-400 font-mono bg-yellow-400/10 px-1.5 py-0.5 rounded border border-yellow-400/30">1000 &Omega;</span>
+                                <div class="space-y-1">
+                                    <div class="text-[9px] font-bold text-cyan border-b border-charcoal pb-0.5 uppercase tracking-wider">2. Simulasi Sensor</div>
+                                    <div class="space-y-0.5">
+                                        <div class="flex justify-between text-[8px] text-gray-400">
+                                            <label>Hambatan LDR (R<sub>2</sub>)</label>
+                                            <span id="val-r2" class="text-white font-mono bg-cyan/20 text-cyan px-1 py-0.2 rounded border border-cyan/30 text-[8px]">1000 &Omega;</span>
                                         </div>
                                         <input type="range" id="slider-r2" min="100" max="10000" step="100" value="1000">
                                     </div>
-                                    <div class="pt-1.5">
-                                        <label class="block text-[9px] text-gray-300 font-medium mb-1">Batas Daya Op-Amp (V<sub>sat</sub>)</label>
-                                        <select id="select-vsat" class="w-full bg-navy/80 border border-white/20 rounded-lg text-white text-xs p-1.5 focus:border-cyan focus:ring-1 focus:ring-cyan focus:outline-none shadow-inner cursor-pointer font-mono">
-                                            <option value="5">5V (TTL Logic)</option>
-                                            <option value="9">9V (Baterai)</option>
-                                            <option value="12" selected>12V (Adaptor)</option>
+                                    <div class="pt-1">
+                                        <label class="block text-[8px] text-gray-400 mb-0.5">Batas Catu Daya Op-Amp (V<sub>sat</sub>)</label>
+                                        <select id="select-vsat" class="w-full bg-navy border border-charcoal rounded text-white text-[9px] p-1 focus:border-cyan focus:outline-none shadow-inner">
+                                            <option value="5">5 Volt (Logika TTL)</option>
+                                            <option value="9">9 Volt (Baterai Kotak)</option>
+                                            <option value="12" selected>12 Volt (Aki/Adaptor)</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <!-- Op-Amp Controls -->
-                                <div class="space-y-2">
-                                    <div class="text-[10px] font-bold text-magenta border-b border-magenta/20 pb-1 uppercase tracking-widest drop-shadow-[0_0_5px_rgba(255,0,60,0.5)]">2. Penguat Op-Amp</div>
-                                    <div class="space-y-1">
-                                        <div class="flex justify-between items-end text-[9px] text-gray-300 font-medium">
-                                            <label>Feedback (R<sub>f</sub>)</label>
-                                            <span id="val-rf" class="text-magenta font-mono bg-magenta/10 px-1.5 py-0.5 rounded border border-magenta/30">2000 &Omega;</span>
+                                <div class="space-y-1">
+                                    <div class="text-[9px] font-bold text-magenta border-b border-charcoal pb-0.5 uppercase tracking-wider">3. Penguat Op-Amp</div>
+                                    <div class="space-y-0.5">
+                                        <div class="flex justify-between text-[8px] text-gray-400">
+                                            <label>Resistor Feedback (R<sub>f</sub>)</label>
+                                            <span id="val-rf" class="text-white font-mono bg-navy px-1 py-0.2 rounded border border-charcoal text-[8px]">2000 &Omega;</span>
                                         </div>
                                         <input type="range" id="slider-rf" class="slider-magenta" min="0" max="20000" step="500" value="2000">
                                     </div>
-                                    <div class="space-y-1">
-                                        <div class="flex justify-between items-end text-[9px] text-gray-300 font-medium">
-                                            <label>Ground (R<sub>g</sub>)</label>
-                                            <span id="val-rg" class="text-white font-mono bg-white/10 px-1.5 py-0.5 rounded border border-white/20">2000 &Omega;</span>
+                                    <div class="space-y-0.5">
+                                        <div class="flex justify-between text-[8px] text-gray-400">
+                                            <label>Resistor Ground (R<sub>g</sub>)</label>
+                                            <span id="val-rg" class="text-white font-mono bg-navy px-1 py-0.2 rounded border border-charcoal text-[8px]">2000 &Omega;</span>
                                         </div>
                                         <input type="range" id="slider-rg" class="slider-magenta" min="1000" max="10000" step="500" value="2000">
                                     </div>
@@ -481,93 +482,92 @@
 
                     <!-- TAB: PENGUMPULAN DATA -->
                     <div id="tab-data" class="tab-pane hidden max-w-5xl mx-auto fade-in pb-10 w-full">
-                        <div class="flex justify-between items-end mb-6">
+                        <div class="flex justify-between items-end mb-4">
                             <div>
-                                <h3 class="text-2xl font-extrabold text-white tracking-tight">Log Data Eksperimen</h3>
-                                <p class="text-sm text-cyan/70 font-mono mt-1">Rekam jejak parameter sirkuit dan penguatan sinyal.</p>
+                                <h3 class="text-xl font-bold text-white">Tabel Pengumpulan Data</h3>
+                                <p class="text-xs text-gray-400">Hasil rekam simulasi sirkuit pengondisi sinyal.</p>
                             </div>
                         </div>
 
-                        <div class="glass-panel rounded-2xl border-white/10 overflow-hidden shadow-2xl">
-                            <div class="overflow-x-auto p-1">
+                        <div class="bg-slate rounded-lg border border-charcoal overflow-hidden shadow-xl">
+                            <div class="overflow-x-auto">
                                 <table class="w-full text-left" id="data-table">
                                     <thead>
                                         <tr>
-                                            <th class="w-10 rounded-tl-lg">No</th>
+                                            <th class="w-8">No</th>
                                             <th>V<sub>in</sub> (V)</th>
                                             <th>R<sub>1</sub> (&Omega;)</th>
                                             <th>R<sub>2</sub> (&Omega;)</th>
-                                            <th class="text-cyan bg-cyan/10">Out 1 (V<sub>out1</sub>)</th>
+                                            <th class="text-cyan bg-slate-800">Out 1 (V<sub>out1</sub>)</th>
                                             <th>R<sub>f</sub> (&Omega;)</th>
                                             <th>R<sub>g</sub> (&Omega;)</th>
-                                            <th class="text-magenta bg-magenta/5 border-l border-white/5">Gain (A<sub>v</sub>)</th>
-                                            <th class="text-magenta bg-magenta/10 shadow-[inset_0_0_10px_rgba(255,0,60,0.1)]">Out 2 (V<sub>out2</sub>)</th>
-                                            <th>Status</th>
-                                            <th class="w-12 rounded-tr-lg">Aksi</th>
+                                            <th class="text-magenta">Gain (A<sub>v</sub>)</th>
+                                            <th class="text-magenta bg-slate-800">Out 2 (V<sub>out2</sub>)</th>
+                                            <th>Status Sinyal</th>
+                                            <th class="w-12">Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="table-body" class="bg-transparent font-mono text-[13px]">
+                                    <tbody id="table-body" class="bg-navy divide-y divide-charcoal text-sm">
                                         <!-- Data rows will be injected here -->
                                     </tbody>
                                 </table>
                             </div>
-                            <div id="empty-state" class="p-12 text-center text-gray-500 flex flex-col items-center">
-                                <svg class="w-16 h-16 mb-4 opacity-20 filter drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                <p class="text-base font-medium text-gray-400">Database Kosong.</p>
-                                <p class="text-sm mt-1">Lakukan eksperimen di menu Lab Maya dan rekam data.</p>
+                            <div id="empty-state" class="p-8 text-center text-gray-500 flex flex-col items-center">
+                                <svg class="w-10 h-10 mb-2 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <p class="text-sm">Belum ada data yang dicatat.</p>
+                                <p class="text-xs mt-1">Lakukan eksperimen di menu Lab Maya dan klik "Catat Data".</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- TAB: ANALISIS -->
                     <div id="tab-analisis" class="tab-pane hidden max-w-4xl mx-auto fade-in pb-10 w-full">
-                        <div class="glass-panel p-8 rounded-2xl">
-                            <h3 class="text-2xl font-extrabold text-white mb-2">Panduan Analisis & Evaluasi</h3>
-                            <p class="text-sm text-cyan/70 font-mono mb-8 border-b border-white/10 pb-4">Jawablah pertanyaan studi kasus berikut secara komprehensif. Output akan digenerate menjadi Laporan Resmi.</p>
+                        <h3 class="text-xl font-bold text-white mb-2">Panduan Analisis & Evaluasi</h3>
+                        <p class="text-xs text-gray-400 mb-5 border-b border-charcoal pb-3">Jawablah pertanyaan studi kasus berikut secara detail berdasarkan teori dan data pengamatan Anda. Hasil ini akan menjadi bagian utama dari laporan praktikum.</p>
 
-                            <div class="space-y-6">
-                                <!-- Pertanyaan 1 -->
-                                <div class="bg-navy/40 p-6 rounded-xl border border-white/5 shadow-inner hover:border-cyan/30 transition-colors">
-                                    <div class="flex items-start">
-                                        <div class="bg-gradient-to-br from-cyan-400 to-blue-500 text-navy font-black rounded-lg w-8 h-8 flex items-center justify-center text-sm mr-4 shrink-0 shadow-neon-cyan">1</div>
-                                        <div class="w-full">
-                                            <h4 class="font-bold text-white text-base mb-3">Analisis Pembagi Tegangan & Efisiensi ADC</h4>
-                                            <p class="text-sm text-gray-300 mb-4 text-justify leading-relaxed">
-                                                Sebuah robot penjelajah menggunakan sensor cahaya LDR sebagai <b>R<sub>2</sub></b> dalam rangkaian pembagi tegangan dengan hambatan linier <b>R<sub>1</sub> = 4000 &Omega;</b> and <b>V<sub>in</sub> = 5 V</b>. Saat robot memasuki lorong yang sangat gelap, nilai hambatan LDR anjlok menjadi <b>1000 &Omega;</b>.<br><br>
-                                                <b>a)</b> Hitunglah secara runut nilai tegangan keluaran <b>V<sub>out1</sub></b> yang dihasilkan!<br>
-                                                <b>b)</b> Mengapa nilai tegangan <b>V<sub>out1</sub></b> tersebut tidak efisien jika langsung dihubungkan ke pin ADC mikrokontroler (asumsikan ADC 10-bit dengan rentang pembacaan 0-5 Volt)? Jelaskan dampaknya!
-                                            </p>
-                                            <textarea id="answer-1" class="w-full bg-slate/50 border border-white/10 rounded-lg p-4 text-sm text-white focus:border-cyan focus:ring-1 focus:ring-cyan focus:outline-none min-h-[140px] font-mono" placeholder="Ketik perhitungan dan analisis di sini..."></textarea>
-                                        </div>
+                        <div class="space-y-5">
+                            <!-- Pertanyaan 1 -->
+                            <div class="bg-slate p-4 rounded-lg border border-charcoal shadow-lg">
+                                <div class="flex items-start">
+                                    <div class="bg-cyan text-navy font-bold rounded-full w-5 h-5 flex items-center justify-center text-[10px] mr-3 shrink-0 mt-0.5">1</div>
+                                    <div class="w-full">
+                                        <h4 class="font-bold text-white text-sm mb-2">Analisis Pembagi Tegangan & Efisiensi ADC</h4>
+                                        <p class="text-xs text-gray-300 mb-3 text-justify leading-relaxed">
+                                            Sebuah robot penjelajah menggunakan sensor cahaya LDR sebagai <b>R<sub>2</sub></b> dalam rangkaian pembagi tegangan dengan hambatan linier <b>R<sub>1</sub> = 4000 &Omega;</b> and <b>V<sub>in</sub> = 5 V</b>. Saat robot memasuki lorong yang sangat gelap, nilai hambatan LDR anjlok menjadi <b>1000 &Omega;</b>.<br><br>
+                                            <b>a)</b> Hitunglah secara runut nilai tegangan keluaran <b>V<sub>out1</sub></b> yang dihasilkan!<br>
+                                            <b>b)</b> Mengapa nilai tegangan <b>V<sub>out1</sub></b> tersebut tidak efisien jika langsung dihubungkan ke pin ADC mikrokontroler (asumsikan ADC 10-bit dengan rentang pembacaan 0-5 Volt)? Jelaskan dampaknya terhadap sensitivitas dan resolusi pembacaan robot di area gelap!
+                                        </p>
+                                        <textarea id="answer-1" class="w-full bg-navy border border-charcoal rounded-md p-3 text-xs text-white focus:border-cyan focus:outline-none min-h-[120px]" placeholder="1.a) Perhitungan V_out1...&#10;1.b) Alasan efisiensi dan resolusi ADC..."></textarea>
                                     </div>
                                 </div>
+                            </div>
 
-                                <!-- Pertanyaan 2 -->
-                                <div class="bg-navy/40 p-6 rounded-xl border border-white/5 shadow-inner hover:border-magenta/30 transition-colors">
-                                    <div class="flex items-start">
-                                        <div class="bg-gradient-to-br from-magenta to-pink-600 text-white font-black rounded-lg w-8 h-8 flex items-center justify-center text-sm mr-4 shrink-0 shadow-neon-magenta">2</div>
-                                        <div class="w-full">
-                                            <h4 class="font-bold text-white text-base mb-3">Solusi Rekayasa & Evaluasi Saturasi</h4>
-                                            <p class="text-sm text-gray-300 mb-4 text-justify leading-relaxed">
-                                                Berdasarkan pengamatan pada simulasi, jika nilai <b>V<sub>out1</sub> = 1.67 V</b> and batas catu daya Op-Amp (<b>V<sub>sat</sub></b>) adalah <b>5 Volt</b>, sinyal akhir <b>V<sub>out2</sub></b> akan mengalami distorsi (<i>clipping</i>) jika Gain diset terlalu tinggi.<br><br>
-                                                Sebagai <i>Robot Software Architect</i>:<br>
-                                                <b>a)</b> Hitunglah angka Gain (<b>A<sub>v</sub></b>) maksimal yang ideal agar sinyal 1.67 V diperkuat menjadi tepat 5 Volt tanpa distorsi!<br>
-                                                <b>b)</b> Tentukan nilai <b>Resistor Feedback (R<sub>f</sub>)</b> jika Resistor Ground (<b>R<sub>g</sub></b>) bernilai tetap <b>2000 &Omega;</b>!<br>
-                                                <b>c)</b> Apa konsekuensi logis pada respons robot jika masalah distorsi saturasi ini dibiarkan?
-                                            </p>
-                                            <textarea id="answer-2" class="w-full bg-slate/50 border border-white/10 rounded-lg p-4 text-sm text-white focus:border-magenta focus:ring-1 focus:ring-magenta focus:outline-none min-h-[160px] font-mono" placeholder="Ketik solusi rekayasa di sini..."></textarea>
-                                        </div>
+                            <!-- Pertanyaan 2 -->
+                            <div class="bg-slate p-4 rounded-lg border border-charcoal shadow-lg">
+                                <div class="flex items-start">
+                                    <div class="bg-magenta text-white font-bold rounded-full w-5 h-5 flex items-center justify-center text-[10px] mr-3 shrink-0 mt-0.5">2</div>
+                                    <div class="w-full">
+                                        <h4 class="font-bold text-white text-sm mb-2">Solusi Rekayasa & Evaluasi Efek Saturasi</h4>
+                                        <p class="text-xs text-gray-300 mb-3 text-justify leading-relaxed">
+                                            Berdasarkan pengamatan pada simulasi, jika nilai <b>V<sub>out1</sub> = 1.67 V</b> and batas catu daya Op-Amp (<b>V<sub>sat</sub></b>) adalah <b>5 Volt</b>, sinyal akhir <b>V<sub>out2</sub></b> akan mengalami distorsi/pemotongan bentuk gelombang (<i>clipping/saturasi</i>) jika Gain diset terlalu tinggi (misalnya diset 5x maka akan tembus 8.35 V, melebihi 5 V).<br><br>
+                                            Sebagai seorang <i>Robot Software Architect</i>:<br>
+                                            <b>a)</b> Hitunglah angka Gain (<b>A<sub>v</sub></b>) maksimal yang ideal agar sinyal 1.67 V ini diperkuat tepat menjadi 5 Volt tanpa mengalami distorsi saturasi!<br>
+                                            <b>b)</b> Tentukan dan buktikan dengan rumus aljabar nilai <b>Resistor Feedback (R<sub>f</sub>)</b> yang harus dipasang jika Resistor Ground (<b>R<sub>g</sub></b>) bernilai tetap <b>2000 &Omega;</b>!<br>
+                                            <b>c)</b> Apa konsekuensi logis (kesalahan pergerakan/logika) pada respons robot jika masalah distorsi saturasi ini dibiarkan terjadi tanpa modifikasi R<sub>f</sub>?
+                                        </p>
+                                        <textarea id="answer-2" class="w-full bg-navy border border-charcoal rounded-md p-3 text-xs text-white focus:border-cyan focus:outline-none min-h-[140px]" placeholder="2.a) Perhitungan Gain ideal...&#10;2.b) Modifikasi nilai Rf...&#10;2.c) Efek pada logika respons robot..."></textarea>
                                     </div>
                                 </div>
+                            </div>
+                            
+                            <!-- Panel Generate Docs -->
+                            <div class="bg-slate/50 p-5 rounded border border-dashed border-charcoal flex flex-col items-center justify-center mt-6">
+                                <p class="text-xs text-gray-400 mb-3 text-center">Pastikan Anda telah mengisi tabel pengumpulan data dan melengkapi dua pertanyaan analisis mendalam di atas sebelum men-generate dokumen laporan akhir.</p>
                                 
-                                <!-- Panel Generate Docs -->
-                                <div class="bg-gradient-to-r from-cyan-900/40 to-blue-900/40 p-6 rounded-xl border border-cyan/30 flex flex-col items-center justify-center mt-8 shadow-[inset_0_0_20px_rgba(0,240,255,0.1)]">
-                                    <p class="text-sm text-gray-300 mb-4 text-center">Pastikan Anda telah mengisi tabel pengumpulan data dan melengkapi dua pertanyaan analisis di atas.</p>
-                                    <button id="btn-export" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold py-3 px-8 rounded-xl transition-all text-sm flex items-center shadow-lg hover:shadow-neon-cyan transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-white/20" disabled>
-                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                        GENERATE LAPORAN (.DOC)
-                                    </button>
-                                </div>
+                                <button id="btn-export" class="bg-gradient-to-r from-cyan to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-2.5 px-6 rounded-full transition-all text-xs flex items-center shadow-lg shadow-cyan/20 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    Generate & Unduh Laporan (.doc)
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -578,54 +578,63 @@
     </div>
 
     <script>
-        // --- BGM ENGINE (Background Music) ---
-        const bgmAudio = new Audio('bgm.mp3');
-        bgmAudio.loop = true;
-        let isBgmPlaying = false;
-        let userVolume = 0.3;
-        let isDucking = false;
-        bgmAudio.volume = userVolume;
-
-        function toggleBGM() {
-            const iconPlay = document.getElementById('icon-bgm-play');
-            const iconMute = document.getElementById('icon-bgm-mute');
-            
-            if (isBgmPlaying) {
-                bgmAudio.pause();
-                isBgmPlaying = false;
-                iconPlay.classList.add('hidden');
-                iconMute.classList.remove('hidden');
-            } else {
-                bgmAudio.play().catch(e => console.log('Audio autoplay blocked by browser', e));
-                isBgmPlaying = true;
-                iconPlay.classList.remove('hidden');
-                iconMute.classList.add('hidden');
-            }
-        }
-
-        function updateBgmVolume(val) {
-            userVolume = parseFloat(val);
-            if(!isDucking) bgmAudio.volume = userVolume;
-        }
-
-        function handleAudioDucking(saturasiTerjadi) {
-            if (saturasiTerjadi && !isDucking) {
-                isDucking = true;
-                bgmAudio.volume = Math.max(0, userVolume * 0.2);
-            } else if (!saturasiTerjadi && isDucking) {
-                isDucking = false;
-                bgmAudio.volume = userVolume;
-            }
-        }
-
-        // --- AUDIO ENGINE (SFX) ---
+        // --- AUDIO ENGINE (BGM & SFX) ---
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         let audioCtx;
+        
+        // Element BGM Audio Tag
+        const bgMusic = document.getElementById('bg-music');
+        const btnMusic = document.getElementById('btn-music');
+        const iconMusicOn = document.getElementById('icon-music-on');
+        const iconMusicOff = document.getElementById('icon-music-off');
+        const sliderVolume = document.getElementById('slider-volume');
+        
+        let isMusicPlaying = false;
+        let normalVolume = 0.3; // Default level audio (30%)
+        let duckedVolume = 0.05; // Level saat ada alert saturasi (5%)
 
         function initAudio() {
-            if (!audioCtx) audioCtx = new AudioContext();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
         }
+
+        // Toggle Music Play/Pause
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                isMusicPlaying = false;
+                iconMusicOn.classList.add('hidden');
+                iconMusicOff.classList.remove('hidden');
+                btnMusic.classList.remove('text-cyan');
+                btnMusic.classList.add('text-gray-400');
+            } else {
+                bgMusic.play().catch(e => console.log("Auto-play diblokir browser:", e));
+                isMusicPlaying = true;
+                iconMusicOn.classList.remove('hidden');
+                iconMusicOff.classList.add('hidden');
+                btnMusic.classList.remove('text-gray-400');
+                btnMusic.classList.add('text-cyan');
+            }
+        }
+
+        // Handle perubahan slider volume
+        sliderVolume.addEventListener('input', (e) => {
+            normalVolume = parseFloat(e.target.value);
+            duckedVolume = normalVolume * 0.15; // Set ducking volume menjadi 15% dari volume normal pengguna
+            
+            // Terapkan langsung ke audio jika tidak sedang dalam state peringatan saturasi
+            if (isMusicPlaying) {
+                if (!simState.isClipped) {
+                    bgMusic.volume = normalVolume;
+                } else {
+                    bgMusic.volume = duckedVolume;
+                }
+            }
+        });
 
         function playClickSound(type = 'click') {
             if (!audioCtx) initAudio();
@@ -637,66 +646,91 @@
             
             if (type === 'click') {
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.04);
-                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.04);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.04);
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.05);
             } else if (type === 'record') {
                 osc.type = 'square';
-                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-                osc.frequency.setValueAtTime(1200, audioCtx.currentTime + 0.05);
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime + 0.05);
                 gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
                 gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.15);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.15);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.15);
             } else if (type === 'alert') {
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
                 gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.1);
             }
         }
 
-        // --- CUSTOM MODAL UTILS ---
+        // --- CUSTOM MODAL & CONFIRM UTILS ---
         function showCustomAlert(title, message, onConfirm = null) {
-            document.getElementById('modal-title').innerHTML = `<svg class="w-5 h-5 text-cyan mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>${title}`;
+            document.getElementById('modal-title').textContent = title;
             document.getElementById('modal-message').textContent = message;
             
             const btnCancel = document.getElementById('modal-btn-cancel');
             const btnConfirm = document.getElementById('modal-btn-confirm');
+            
             btnCancel.classList.add('hidden');
             btnConfirm.textContent = 'OK';
-            btnConfirm.className = "px-5 py-2 bg-cyan text-navy font-bold text-xs rounded-lg hover:bg-cyan-400 shadow-neon-cyan transition-all";
+            btnConfirm.className = "px-4 py-2 bg-cyan text-navy font-bold text-xs rounded hover:bg-cyan-500 transition-colors";
             
-            btnConfirm.onclick = () => { playClickSound(); closeCustomModal(); if (onConfirm) onConfirm(); };
+            btnConfirm.onclick = () => {
+                playClickSound();
+                closeCustomModal();
+                if (onConfirm) onConfirm();
+            };
+            
             document.getElementById('custom-modal').classList.remove('hidden');
         }
 
         function showCustomConfirm(title, message, onConfirm, onCancel = null) {
-            document.getElementById('modal-title').innerHTML = `<svg class="w-5 h-5 text-satred mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>${title}`;
+            document.getElementById('modal-title').textContent = title;
             document.getElementById('modal-message').textContent = message;
             
             const btnCancel = document.getElementById('modal-btn-cancel');
             const btnConfirm = document.getElementById('modal-btn-confirm');
-            btnCancel.classList.remove('hidden');
-            btnConfirm.textContent = 'Yakin Keluar';
-            btnConfirm.className = "px-5 py-2 bg-satred text-white font-bold text-xs rounded-lg hover:bg-red-500 shadow-[0_0_15px_rgba(255,42,42,0.4)] transition-all";
             
-            btnConfirm.onclick = () => { playClickSound(); closeCustomModal(); if (onConfirm) onConfirm(); };
-            btnCancel.onclick = () => { playClickSound(); closeCustomModal(); if (onCancel) onCancel(); };
+            btnCancel.classList.remove('hidden');
+            btnConfirm.textContent = 'Yakin';
+            btnConfirm.className = "px-4 py-2 bg-satred text-white font-bold text-xs rounded hover:bg-red-600 transition-colors";
+            
+            btnConfirm.onclick = () => {
+                playClickSound();
+                closeCustomModal();
+                if (onConfirm) onConfirm();
+            };
+            
+            btnCancel.onclick = () => {
+                playClickSound();
+                closeCustomModal();
+                if (onCancel) onCancel();
+            };
             
             document.getElementById('custom-modal').classList.remove('hidden');
         }
 
-        function closeCustomModal() { document.getElementById('custom-modal').classList.add('hidden'); }
+        function closeCustomModal() {
+            document.getElementById('custom-modal').classList.add('hidden');
+        }
 
         // --- STATE & VARIABLES ---
         let userData = { nama: '', sekolah: '' };
         let recordedData = [];
-        let simState = { Vin: 5.0, R1: 1000, R2: 1000, Vsat: 12.0, Rf: 2000, Rg: 2000, Vout1: 0, Gain: 0, Vout2_theo: 0, Vout2_actual: 0, isClipped: false };
+        let simState = {
+            Vin: 5.0, R1: 1000, R2: 1000, Vsat: 12.0, Rf: 2000, Rg: 2000,
+            Vout1: 0, Gain: 0, Vout2_theo: 0, Vout2_actual: 0, isClipped: false
+        };
+        
         let canvas, ctx, animationId;
-        let time = 0; 
+        let time = 0; // for wave animation
 
         // --- DOM ELEMENTS ---
         const UI = {
@@ -724,15 +758,15 @@
             { id: 'teori', title: 'Teori Dasar', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>' },
             { id: 'prosedur', title: 'Prosedur Kerja', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>' },
             { id: 'lab', title: 'Lab Maya', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>' },
-            { id: 'data', title: 'Data Log', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>' },
-            { id: 'analisis', title: 'Analisis & Laporan', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>' }
+            { id: 'data', title: 'Pengumpulan Data', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>' },
+            { id: 'analisis', title: 'Panduan Analisis', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>' }
         ];
 
         const guideSteps = [
-            "Selamat datang di Kanvas Simulasi. Skema kiri merepresentasikan Sensor, tengah adalah Penguat Op-Amp, dan kanan adalah Mikrokontroler.",
-            "Modifikasi hambatan Sensor (R2) untuk mensimulasikan perubahan lingkungan fisik. Perhatikan tegangan V_out1 yang dihasilkan.",
-            "Gelombang Cyan merepresentasikan sinyal mentah yang lemah. Naikkan nilai Resistor Feedback (Rf) untuk memperkuat amplitudo sinyal.",
-            "Perhatikan gelombang Magenta (V_out2). Jika tingginya melebihi nilai Vsat, grafik akan terpotong rata (Saturasi distorsi)."
+            "Selamat datang di Kanvas Simulasi. Perhatikan skema: sebelah kiri adalah Pembagi Tegangan (Sensor), tengah adalah Penguat Op-Amp, kanan adalah Mikrokontroler.",
+            "Coba ubah nilai 'Hambatan Sensor (R2)'. Anda mensimulasikan perubahan lingkungan fisik. Perhatikan nilai V_out1 berubah.",
+            "Gelombang Cyan merepresentasikan sinyal mentah yang lemah. Sekarang tingkatkan nilai 'Resistor Feedback (Rf)' untuk memperkuat sinyal.",
+            "Perhatikan gelombang Magenta (V_out2). Jika tingginya melebihi nilai Vsat, grafik akan terpotong rata (Saturasi) dan tanda Op-Amp berkedip merah."
         ];
         let currentGuideStep = 0;
 
@@ -742,41 +776,63 @@
             setupEventListeners();
             checkLoginInputs();
             calculatePhysics();
+            
+            // Set initial UI for volume
+            bgMusic.volume = normalVolume;
+            sliderVolume.value = normalVolume;
         }
 
         // --- AUTH & NAVIGATION ---
         function checkLoginInputs() {
-            const isValid = UI.login.nama.value.trim() !== '' && UI.login.sekolah.value.trim() !== '';
+            const isValid = UI.login.nama.value.trim() !== '' && 
+                            UI.login.sekolah.value.trim() !== '';
             UI.login.btn.disabled = !isValid;
             UI.login.btn.classList.toggle('opacity-50', !isValid);
             UI.login.btn.classList.toggle('cursor-not-allowed', !isValid);
         }
 
         function handleLogin() {
-            playClickSound(); initAudio(); 
-            if(!isBgmPlaying) toggleBGM();
+            playClickSound();
+            initAudio(); // Initialize audio context
+            
+            // Menyalakan Musik Latar Saat Berhasil Login
+            if (!isMusicPlaying) {
+                toggleMusic();
+            }
             
             userData.nama = UI.login.nama.value.trim();
             userData.sekolah = UI.login.sekolah.value.trim();
+
             UI.app.dispName.textContent = userData.nama;
             UI.app.dispSchool.textContent = userData.sekolah;
             UI.app.avatar.textContent = userData.nama.charAt(0).toUpperCase();
 
+            // Sembunyikan login, tampilkan app content wrapper
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('app-screen').classList.remove('hidden');
+            
             switchTab('teori');
         }
 
         function handleLogout() {
             playClickSound();
-            showCustomConfirm('Keluar Sistem', 'Yakin ingin menghentikan simulasi? Data log yang belum di-generate akan dihapus dari memori volatil.', () => {
+            showCustomConfirm('Konfirmasi Keluar', 'Apakah Anda yakin ingin keluar? Semua data yang belum di-export akan hilang.', () => {
+                
+                // Matikan Musik Latar saat keluar
+                if (isMusicPlaying) {
+                    toggleMusic(); 
+                }
+
                 document.getElementById('login-screen').classList.remove('hidden');
                 document.getElementById('app-screen').classList.add('hidden');
-                if(isBgmPlaying) toggleBGM();
                 
-                recordedData = []; updateTable();
-                UI.login.nama.value = ''; UI.login.sekolah.value = '';
+                // Reset Data
+                recordedData = [];
+                updateTable();
+                UI.login.nama.value = '';
+                UI.login.sekolah.value = '';
                 checkLoginInputs();
+                
                 document.getElementById('answer-1').value = '';
                 document.getElementById('answer-2').value = '';
                 cancelAnimationFrame(animationId);
@@ -785,41 +841,48 @@
 
         function renderSidebar() {
             UI.sidebar.menus.innerHTML = menus.map(m => `
-                <button onclick="switchTab('${m.id}')" id="nav-${m.id}" class="w-full flex items-center p-3 rounded-xl text-gray-400 hover:bg-white/5 hover:text-cyan transition-all group relative overflow-hidden">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-cyan transform -translate-x-full group-hover:translate-x-0 transition-transform shadow-[0_0_10px_#00F0FF]"></div>
-                    <svg class="w-6 h-6 shrink-0 group-hover:scale-110 group-hover:drop-shadow-[0_0_5px_rgba(0,240,255,0.8)] transition-all z-10 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" title="${m.title}">${m.icon}</svg>
-                    <span class="ml-3 font-semibold text-sm nav-text z-10">${m.title}</span>
+                <button onclick="switchTab('${m.id}')" id="nav-${m.id}" class="w-full flex items-center p-3 rounded-lg text-gray-400 hover:bg-navy hover:text-cyan transition-colors group">
+                    <svg class="w-6 h-6 shrink-0 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" title="${m.title}">${m.icon}</svg>
+                    <span class="ml-3 font-medium text-sm nav-text">${m.title}</span>
                 </button>
             `).join('');
         }
 
         function switchTab(tabId) {
             playClickSound();
+            
+            // Update Nav Active State
             menus.forEach(m => {
                 const btn = document.getElementById(`nav-${m.id}`);
-                const marker = btn.querySelector('div.absolute');
                 if (m.id === tabId) {
-                    btn.classList.add('bg-white/10', 'text-cyan');
+                    btn.classList.add('bg-navy', 'text-cyan', 'border-l-4', 'border-cyan');
                     btn.classList.remove('text-gray-400');
-                    marker.classList.remove('-translate-x-full');
                 } else {
-                    btn.classList.remove('bg-white/10', 'text-cyan');
+                    btn.classList.remove('bg-navy', 'text-cyan', 'border-l-4', 'border-cyan');
                     btn.classList.add('text-gray-400');
-                    marker.classList.add('-translate-x-full');
                 }
             });
 
+            // Show Tab Content
             UI.tabs.forEach(tab => {
                 if (tab.id === `tab-${tabId}`) {
                     tab.classList.remove('hidden');
                     if (tabId === 'lab') {
-                        setTimeout(() => { initCanvas(); UI.guide.panel.classList.remove('hidden'); updateGuide(); }, 100);
-                    } else { cancelAnimationFrame(animationId); }
-                } else { tab.classList.add('hidden'); }
+                        setTimeout(() => {
+                            initCanvas();
+                            UI.guide.panel.classList.remove('hidden');
+                            updateGuide();
+                        }, 100);
+                    } else {
+                        cancelAnimationFrame(animationId);
+                    }
+                } else {
+                    tab.classList.add('hidden');
+                }
             });
         }
 
-        // --- SIMULATION PHYSICS ---
+        // --- SIMULATION LOGIC ---
         function calculatePhysics() {
             simState.Vin = parseFloat(UI.sim.slVin.value);
             simState.R1 = parseFloat(UI.sim.slR1.value);
@@ -828,8 +891,13 @@
             simState.Rf = parseFloat(UI.sim.slRf.value);
             simState.Rg = parseFloat(UI.sim.slRg.value);
 
+            // Voltage Divider
             simState.Vout1 = simState.Vin * (simState.R2 / (simState.R1 + simState.R2));
+            
+            // Op-Amp Gain
             simState.Gain = 1 + (simState.Rf / simState.Rg);
+            
+            // Output
             simState.Vout2_theo = simState.Vout1 * simState.Gain;
             
             if (simState.Vout2_theo > simState.Vsat) {
@@ -839,6 +907,7 @@
                 simState.Vout2_actual = simState.Vout2_theo;
                 simState.isClipped = false;
             }
+
             updateSimUI();
         }
 
@@ -856,25 +925,31 @@
             if (simState.isClipped) {
                 UI.sim.dispStatus.textContent = `Terpotong (Maks ${simState.Vsat}V)`;
                 UI.sim.dispStatus.classList.replace('text-gray-300', 'text-satred');
-                UI.sim.satWarningBg.style.opacity = '0.3';
-                UI.sim.statusIndicator.textContent = "ERR: SATURASI";
-                UI.sim.statusIndicator.className = "text-[9px] bg-satred px-1.5 py-0.5 rounded text-white font-bold font-mono animate-pulse shadow-[0_0_10px_#FF2A2A]";
+                UI.sim.satWarningBg.style.opacity = '0.2';
+                UI.sim.statusIndicator.textContent = "DISTORSI: SATURASI";
+                UI.sim.statusIndicator.className = "text-[10px] bg-satred px-2 py-1 rounded text-white font-bold animate-pulse";
                 if(Math.random() > 0.95) playClickSound('alert'); 
-                handleAudioDucking(true);
+                
+                // Menerapkan Efek Ducking (Peredaman) Musik Latar
+                if (isMusicPlaying) bgMusic.volume = duckedVolume;
+                
             } else {
-                UI.sim.dispStatus.textContent = "Sinyal Resonansi Normal";
+                UI.sim.dispStatus.textContent = "Sinyal Normal";
                 UI.sim.dispStatus.classList.replace('text-satred', 'text-gray-300');
                 UI.sim.satWarningBg.style.opacity = '0';
-                UI.sim.statusIndicator.textContent = "SYS: OK";
-                UI.sim.statusIndicator.className = "text-[9px] bg-cyan/20 border border-cyan/30 px-1.5 py-0.5 rounded text-cyan tracking-widest font-bold font-mono";
-                handleAudioDucking(false);
+                UI.sim.statusIndicator.textContent = "STATUS: NORMAL";
+                UI.sim.statusIndicator.className = "text-[10px] bg-charcoal px-2 py-1 rounded text-white";
+                
+                // Mengembalikan Volume Musik Latar Normal
+                if (isMusicPlaying) bgMusic.volume = normalVolume;
             }
         }
 
-        // --- CANVAS RENDERING ENGINE ---
+        // --- CANVAS ANIMATION ---
         function initCanvas() {
             canvas = document.getElementById('sim-canvas');
             ctx = canvas.getContext('2d');
+            
             const resizeCanvas = () => {
                 const wrapper = document.getElementById('canvas-scroll-wrapper');
                 canvas.width = Math.max(wrapper.clientWidth, 1080);
@@ -882,25 +957,31 @@
             };
             window.addEventListener('resize', resizeCanvas);
             resizeCanvas();
+
             cancelAnimationFrame(animationId);
             animateCanvas();
         }
 
+        // Fungsi gambar resistor zigzag yang presisi
         function drawResistor(x, y, isVertical, scale = 1) {
-            ctx.beginPath(); ctx.moveTo(x, y);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
             const w = 8 * scale, seg = 6 * scale; 
+            
             if(isVertical) {
                 ctx.lineTo(x, y + seg);
                 ctx.lineTo(x - w, y + seg*2); ctx.lineTo(x + w, y + seg*4);
                 ctx.lineTo(x - w, y + seg*6); ctx.lineTo(x + w, y + seg*8);
                 ctx.lineTo(x - w, y + seg*10); ctx.lineTo(x + w, y + seg*12);
-                ctx.lineTo(x, y + seg*13); ctx.lineTo(x, y + seg*14);
+                ctx.lineTo(x, y + seg*13);
+                ctx.lineTo(x, y + seg*14);
             } else {
                 ctx.lineTo(x + seg, y);
                 ctx.lineTo(x + seg*2, y - w); ctx.lineTo(x + seg*4, y + w);
                 ctx.lineTo(x + seg*6, y - w); ctx.lineTo(x + seg*8, y + w);
                 ctx.lineTo(x + seg*10, y - w); ctx.lineTo(x + seg*12, y + w);
-                ctx.lineTo(x + seg*13, y); ctx.lineTo(x + seg*14, y);
+                ctx.lineTo(x + seg*13, y);
+                ctx.lineTo(x + seg*14, y);
             }
             ctx.stroke();
         }
@@ -909,71 +990,109 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             time += 0.05;
 
-            const cw = canvas.width, ch = canvas.height;
-            const splitX = cw * 0.52, circuitY = ch / 2;
+            const cw = canvas.width;
+            const ch = canvas.height;
+            
+            const splitX = cw * 0.52; 
+            const circuitY = ch / 2;
             const s = Math.max(0.6, Math.min(1.1, ch / 300));
             
-            const colorWire = '#475569'; /* Darker wire for higher contrast with neon */
-            const colorCyan = '#00F0FF';
-            const colorMagenta = '#FF003C';
-            const divX = splitX * 0.20, opX = splitX * 0.55, mcuX = splitX * 0.85;
+            const colorWire = '#94a3b8'; 
+            const colorCyan = '#06B6D4';
+            const colorMagenta = '#D946EF';
 
-            // Block Backgrounds (More subtle in glass theme)
-            ctx.lineWidth = 1.2; ctx.setLineDash([2, 4]);
-            const bTop = circuitY - 125 * s, bHeight = 265 * s;
-            const bTextY1 = bTop + 16 * s, bTextY2 = bTop + 28 * s;   
-            
-            const z1X = Math.max(10, divX - 70 * s), z1W = (divX + 68 * s) - z1X;
-            const z2X = divX + 68 * s + 6 * s, z2W = (opX + 70 * s) - z2X;
-            const z3X = opX + 70 * s + 6 * s, z3W = (splitX + 15) - z3X;
+            const divX = splitX * 0.20;
+            const opX = splitX * 0.55;
+            const mcuX = splitX * 0.85;
 
-            ctx.fillStyle = 'rgba(0, 240, 255, 0.015)'; ctx.strokeStyle = 'rgba(0, 240, 255, 0.15)';
-            ctx.fillRect(z1X, bTop, z1W, bHeight); ctx.strokeRect(z1X, bTop, z1W, bHeight);
-            ctx.fillStyle = colorCyan; ctx.font = `bold ${Math.max(8.5, 9.5 * s)}px Arial`; ctx.textAlign = 'center';
-            ctx.fillText('BLOK 1: SENSOR', z1X + z1W / 2, bTextY1); ctx.fillText('(PEMBAGI TEGANGAN)', z1X + z1W / 2, bTextY2);
+            // 1. BLOK DIAGRAM SIRKUIT
+            ctx.lineWidth = 1.2; ctx.setLineDash([4, 4]);
             
-            ctx.fillStyle = 'rgba(255, 0, 60, 0.015)'; ctx.strokeStyle = 'rgba(255, 0, 60, 0.15)';
-            ctx.fillRect(z2X, bTop, z2W, bHeight); ctx.strokeRect(z2X, bTop, z2W, bHeight);
+            const bTop = circuitY - 125 * s; 
+            const bHeight = 265 * s; 
+            const bTextY1 = bTop + 16 * s;  
+            const bTextY2 = bTop + 28 * s;  
+            
+            const z1X = Math.max(10, divX - 70 * s);
+            const z1_right = divX + 68 * s;
+            const z1W = z1_right - z1X;
+            
+            const z2X = z1_right + 6 * s;
+            const z2_right = opX + 70 * s; 
+            const z2W = z2_right - z2X;
+            
+            const z3X = z2_right + 6 * s;
+            const z3W = (splitX + 15) - z3X;
+
+            ctx.fillStyle = 'rgba(6, 182, 212, 0.02)'; ctx.strokeStyle = 'rgba(6, 182, 212, 0.25)';
+            ctx.fillRect(z1X, bTop, z1W, bHeight); 
+            ctx.strokeRect(z1X, bTop, z1W, bHeight);
+            ctx.fillStyle = colorCyan; ctx.font = `bold ${Math.max(8.5, 9.5 * s)}px Arial`; 
+            ctx.textAlign = 'center';
+            ctx.fillText('BLOK 1: SENSOR', z1X + z1W / 2, bTextY1);
+            ctx.fillText('(PEMBAGI TEGANGAN)', z1X + z1W / 2, bTextY2);
+            
+            ctx.fillStyle = 'rgba(217, 70, 239, 0.02)'; ctx.strokeStyle = 'rgba(217, 70, 239, 0.25)';
+            ctx.fillRect(z2X, bTop, z2W, bHeight); 
+            ctx.strokeRect(z2X, bTop, z2W, bHeight);
             ctx.fillStyle = colorMagenta; 
-            ctx.fillText('BLOK 2: PENGUAT', z2X + z2W / 2, bTextY1); ctx.fillText('(OP-AMP)', z2X + z2W / 2, bTextY2);
+            ctx.fillText('BLOK 2: PENGUAT SINYAL', z2X + z2W / 2, bTextY1);
+            ctx.fillText('(OP-AMP)', z2X + z2W / 2, bTextY2);
 
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.015)'; ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-            ctx.fillRect(z3X, bTop, z3W, bHeight); ctx.strokeRect(z3X, bTop, z3W, bHeight);
-            ctx.fillStyle = '#cbd5e1'; 
-            ctx.fillText('BLOK 3: ROBOT', z3X + z3W / 2, bTextY1); ctx.fillText('(MCU CORE)', z3X + z3W / 2, bTextY2);
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.02)'; ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
+            ctx.fillRect(z3X, bTop, z3W, bHeight); 
+            ctx.strokeRect(z3X, bTop, z3W, bHeight);
+            ctx.fillStyle = '#38bdf8'; 
+            ctx.fillText('BLOK 3: ROBOT', z3X + z3W / 2, bTextY1);
+            ctx.fillText('(MIKROKONTROLER)', z3X + z3W / 2, bTextY2);
             
-            ctx.textAlign = 'left'; ctx.setLineDash([]); ctx.lineWidth = 2.5; ctx.strokeStyle = colorWire;
+            ctx.textAlign = 'left'; 
+            ctx.setLineDash([]); 
+            ctx.lineWidth = 2.5; ctx.strokeStyle = colorWire;
 
-            // Circuit 1
-            const R1_start = circuitY - 65 * s, R1_end = R1_start + 55 * s, Vout1_node = circuitY - 5 * s;
-            const R2_start = Vout1_node, R2_end = R2_start + 55 * s, Gnd_line = R2_end + 15 * s;
+            const R1_start = circuitY - 65 * s;
+            const R1_end = R1_start + 55 * s;
+            const Vout1_node = circuitY - 5 * s;
+            const R2_start = Vout1_node;
+            const R2_end = R2_start + 55 * s;
+            const Gnd_line = R2_end + 15 * s;
 
-            // LDR Light simulation
             const ldrIntensity = 1 - (simState.R2 - 100) / 9900; 
             if (ldrIntensity > 0.05) {
                 ctx.beginPath();
                 let gradient = ctx.createRadialGradient(divX - 35*s, Vout1_node + 28*s, 5, divX, Vout1_node + 28*s, 45*s);
-                gradient.addColorStop(0, `rgba(250, 204, 21, ${ldrIntensity * 0.5})`); gradient.addColorStop(1, 'rgba(250, 204, 21, 0)');
+                gradient.addColorStop(0, `rgba(253, 224, 71, ${ldrIntensity * 0.4})`);
+                gradient.addColorStop(1, 'rgba(253, 224, 71, 0)');
                 ctx.fillStyle = gradient;
-                ctx.moveTo(divX - 45 * s, Vout1_node + 5 * s); ctx.lineTo(divX + 10 * s, Vout1_node + 28 * s); ctx.lineTo(divX - 45 * s, Vout1_node + 51 * s);
-                ctx.closePath(); ctx.fill();
+                ctx.moveTo(divX - 45 * s, Vout1_node + 5 * s);
+                ctx.lineTo(divX + 10 * s, Vout1_node + 28 * s);
+                ctx.lineTo(divX - 45 * s, Vout1_node + 51 * s);
+                ctx.closePath();
+                ctx.fill();
             }
 
             const vinY = circuitY - 80 * s;
-            ctx.beginPath(); ctx.arc(divX, vinY, 7 * s, 0, Math.PI*2); ctx.fillStyle = '#10B981'; ctx.fill(); ctx.stroke();
-            ctx.fillStyle = '#fff'; ctx.font = `bold ${Math.max(9, 10 * s)}px Arial`; ctx.fillText(`+ ${simState.Vin.toFixed(1)}V`, divX - 15 * s, vinY - 12 * s);
-            ctx.beginPath(); ctx.moveTo(divX, vinY); ctx.lineTo(divX, R1_start); ctx.stroke();
-            drawResistor(divX, R1_start, true, s);
-            ctx.fillStyle = '#94a3b8'; ctx.font = `9px "Fira Code"`; ctx.fillText(`R1=${simState.R1}Ω`, divX + 8 * s, R1_start + 28 * s);
-            ctx.beginPath(); ctx.moveTo(divX, R1_end); ctx.lineTo(divX, Vout1_node); ctx.stroke();
+            ctx.beginPath(); ctx.arc(divX, vinY, 7 * s, 0, Math.PI*2); 
+            ctx.fillStyle = '#10B981'; ctx.fill(); ctx.stroke();
+            ctx.fillStyle = '#fff'; ctx.font = `bold ${Math.max(9, 10 * s)}px Arial`; 
+            ctx.fillText(`+ ${simState.Vin.toFixed(1)}V`, divX - 15 * s, vinY - 12 * s);
             
-            // Glowing node Vout1
+            ctx.beginPath(); ctx.moveTo(divX, vinY); ctx.lineTo(divX, R1_start); ctx.stroke();
+            
+            drawResistor(divX, R1_start, true, s);
+            ctx.fillStyle = '#cbd5e1'; ctx.font = `9px Courier New`;
+            ctx.fillText(`R1=${simState.R1}Ω`, divX + 8 * s, R1_start + 28 * s);
+            
+            ctx.beginPath(); ctx.moveTo(divX, R1_end); ctx.lineTo(divX, Vout1_node); ctx.stroke();
             ctx.beginPath(); ctx.arc(divX, Vout1_node, 4, 0, Math.PI*2); ctx.fillStyle = colorCyan; ctx.fill();
-            ctx.shadowBlur = 10; ctx.shadowColor = colorCyan; ctx.fill(); ctx.shadowBlur = 0;
-            ctx.fillStyle = colorCyan; ctx.font = 'bold 10px "Fira Code"'; ctx.fillText(`${simState.Vout1.toFixed(2)}V`, divX + 8 * s, Vout1_node - 4 * s);
+            
+            ctx.fillStyle = colorCyan; ctx.font = 'bold 10px Arial';
+            ctx.fillText(`Vout1=${simState.Vout1.toFixed(2)}V`, divX + 8 * s, Vout1_node - 4 * s);
             
             drawResistor(divX, R2_start, true, s);
-            ctx.fillStyle = '#facc15'; ctx.font = `9px "Fira Code"`; ctx.fillText(`LDR=${simState.R2}Ω`, divX + 8 * s, R2_start + 28 * s);
+            ctx.fillStyle = colorCyan; ctx.font = `9px Courier New`;
+            ctx.fillText(`LDR=${simState.R2}Ω`, divX + 8 * s, R2_start + 28 * s);
+            
             ctx.beginPath(); ctx.moveTo(divX, R2_end); ctx.lineTo(divX, Gnd_line); ctx.stroke();
             ctx.lineWidth = 3;
             ctx.beginPath(); ctx.moveTo(divX - 10 * s, Gnd_line); ctx.lineTo(divX + 10 * s, Gnd_line);
@@ -981,165 +1100,290 @@
             ctx.moveTo(divX - 3 * s, Gnd_line + 8 * s); ctx.lineTo(divX + 3 * s, Gnd_line + 8 * s); ctx.stroke();
             ctx.lineWidth = 2.5;
 
-            // Op-Amp
-            const opMinusY = circuitY + 55 * s, opPlusY = circuitY + 15 * s, opOutY = circuitY + 35 * s;
-            ctx.beginPath(); ctx.strokeStyle = colorCyan; ctx.shadowBlur=5; ctx.shadowColor=colorCyan; ctx.setLineDash([5, 5]);
-            ctx.lineDashOffset = -time * (simState.Vout1 * 4 + 10);
-            ctx.moveTo(divX, Vout1_node); ctx.lineTo(opX - 60 * s, Vout1_node); ctx.lineTo(opX - 60 * s, opPlusY); ctx.lineTo(opX - 45 * s, opPlusY); ctx.stroke();
-            ctx.setLineDash([]); ctx.strokeStyle = colorWire; ctx.shadowBlur=0;
+            const opMinusY = circuitY + 55 * s;
+            const opPlusY = circuitY + 15 * s;
+            const opOutY = circuitY + 35 * s;
+
+            ctx.beginPath();
+            ctx.strokeStyle = colorCyan;
+            ctx.setLineDash([5, 5]);
+            ctx.lineDashOffset = -time * (simState.Vout1 * 3 + 5);
+            ctx.moveTo(divX, Vout1_node); 
+            ctx.lineTo(opX - 60 * s, Vout1_node); 
+            ctx.lineTo(opX - 60 * s, opPlusY); 
+            ctx.lineTo(opX - 45 * s, opPlusY); 
+            ctx.stroke();
+            ctx.setLineDash([]); ctx.strokeStyle = colorWire; 
             
-            ctx.beginPath(); ctx.moveTo(opX - 45 * s, circuitY - 5 * s); ctx.lineTo(opX + 45 * s, opOutY); ctx.lineTo(opX - 45 * s, circuitY + 75 * s); ctx.closePath();
+            ctx.beginPath();
+            ctx.moveTo(opX - 45 * s, circuitY - 5 * s); 
+            ctx.lineTo(opX + 45 * s, opOutY);           
+            ctx.lineTo(opX - 45 * s, circuitY + 75 * s); 
+            ctx.closePath();
+            
             if(simState.isClipped) {
-                ctx.fillStyle = `rgba(255, 42, 42, ${0.4 + 0.5*Math.sin(time*15)})`;
-                ctx.strokeStyle = '#FF2A2A'; ctx.shadowBlur = 15; ctx.shadowColor = '#FF2A2A';
+                ctx.fillStyle = `rgba(239, 68, 68, ${0.4 + 0.4*Math.sin(time*10)})`;
+                ctx.strokeStyle = '#EF4444';
             } else {
-                ctx.fillStyle = '#0f172a'; ctx.strokeStyle = '#64748b'; ctx.shadowBlur = 0;
+                ctx.fillStyle = '#1e293b'; 
+                ctx.strokeStyle = '#94A3B8';
             }
-            ctx.fill(); ctx.stroke(); ctx.shadowBlur = 0;
+            ctx.fill(); ctx.stroke();
             
-            ctx.fillStyle = '#fff'; ctx.font = 'bold 14px Arial'; ctx.fillText('+', opX - 35 * s, opPlusY + 4 * s); ctx.fillText('-', opX - 35 * s, opMinusY - 1 * s);
-            ctx.font = 'bold 9px Arial'; ctx.fillStyle = '#94a3b8'; ctx.fillText('Op-Amp', opX - 25 * s, circuitY + 28 * s);
-            ctx.fillStyle = colorMagenta; ctx.font = 'bold 10px "Fira Code"'; ctx.fillText(`Av:${simState.Gain.toFixed(2)}x`, opX - 25 * s, circuitY + 42 * s);
+            ctx.fillStyle = '#fff'; ctx.font = 'bold 14px Arial';
+            ctx.fillText('+', opX - 35 * s, opPlusY + 3 * s);
+            ctx.fillText('-', opX - 35 * s, opMinusY - 1 * s);
+            ctx.font = 'bold 9px Arial'; ctx.fillStyle = '#cbd5e1'; 
+            ctx.fillText('Op-Amp', opX - 25 * s, circuitY + 28 * s);
+            ctx.fillStyle = colorMagenta; ctx.font = 'bold 9px Arial';
+            ctx.fillText(`Av:${simState.Gain.toFixed(2)}x`, opX - 25 * s, circuitY + 40 * s);
 
             ctx.strokeStyle = colorWire;
             ctx.beginPath(); ctx.arc(opX + 45 * s, opOutY, 3, 0, Math.PI*2); ctx.fillStyle = colorMagenta; ctx.fill();
-            ctx.beginPath(); ctx.moveTo(opX + 45 * s, opOutY); ctx.lineTo(opX + 65 * s, opOutY); ctx.lineTo(opX + 65 * s, circuitY - 30 * s); ctx.lineTo(opX + 25 * s, circuitY - 30 * s); ctx.stroke();
+            ctx.beginPath(); 
+            ctx.moveTo(opX + 45 * s, opOutY); 
+            ctx.lineTo(opX + 65 * s, opOutY); 
+            ctx.lineTo(opX + 65 * s, circuitY - 30 * s); 
+            ctx.lineTo(opX + 25 * s, circuitY - 30 * s); 
+            ctx.stroke();
+            
             drawResistor(opX - 59 * s, circuitY - 30 * s, false, s); 
-            ctx.fillStyle = colorMagenta; ctx.font = '9px "Fira Code"'; ctx.fillText(`Rf=${simState.Rf}Ω`, opX - 45 * s, circuitY - 38 * s);
-            ctx.beginPath(); ctx.moveTo(opX - 59 * s, circuitY - 30 * s); ctx.lineTo(opX - 80 * s, circuitY - 30 * s); ctx.lineTo(opX - 80 * s, opMinusY); ctx.lineTo(opX - 45 * s, opMinusY); ctx.stroke();
+            ctx.fillStyle = colorMagenta; ctx.font = '9px Courier New';
+            ctx.fillText(`Rf=${simState.Rf}Ω`, opX - 45 * s, circuitY - 38 * s);
+            
+            ctx.beginPath(); 
+            ctx.moveTo(opX - 59 * s, circuitY - 30 * s); 
+            ctx.lineTo(opX - 80 * s, circuitY - 30 * s); 
+            ctx.lineTo(opX - 80 * s, opMinusY); 
+            ctx.lineTo(opX - 45 * s, opMinusY); 
+            ctx.stroke();
             
             ctx.beginPath(); ctx.arc(opX - 80 * s, circuitY - 30 * s, 3.5, 0, Math.PI*2); ctx.fillStyle = colorWire; ctx.fill();
-            ctx.beginPath(); ctx.moveTo(opX - 80 * s, circuitY - 30 * s); ctx.lineTo(opX - 105 * s, circuitY - 30 * s); ctx.lineTo(opX - 105 * s, circuitY + 10 * s); ctx.stroke();
+            ctx.beginPath(); 
+            ctx.moveTo(opX - 80 * s, circuitY - 30 * s); 
+            ctx.lineTo(opX - 105 * s, circuitY - 30 * s); 
+            ctx.lineTo(opX - 105 * s, circuitY + 10 * s); 
+            ctx.stroke();
+            
             drawResistor(opX - 105 * s, circuitY + 10 * s, true, s);
-            ctx.fillStyle = '#cbd5e1'; ctx.font = '9px "Fira Code"'; ctx.fillText(`Rg=${simState.Rg}Ω`, opX - 98 * s, circuitY + 50 * s);
+            ctx.fillStyle = colorMagenta; ctx.font = '9px Courier New';
+            ctx.fillText(`Rg=${simState.Rg}Ω`, opX - 98 * s, circuitY + 50 * s);
             
             const Rg_end = circuitY + 94 * s;
             ctx.beginPath(); ctx.moveTo(opX - 100 * s, Rg_end); ctx.lineTo(opX - 100 * s, circuitY + 110 * s); ctx.stroke();
-            ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(opX - 110 * s, circuitY + 110 * s); ctx.lineTo(opX - 90 * s, circuitY + 110 * s);
+            ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.moveTo(opX - 110 * s, circuitY + 110 * s); ctx.lineTo(opX - 90 * s, circuitY + 110 * s);
             ctx.moveTo(opX - 106 * s, circuitY + 114 * s); ctx.lineTo(opX - 94 * s, circuitY + 114 * s);
-            ctx.moveTo(opX - 102 * s, circuitY + 118 * s); ctx.lineTo(opX - 98 * s, circuitY + 118 * s); ctx.stroke(); ctx.lineWidth = 2.5;
+            ctx.moveTo(opX - 102 * s, circuitY + 118 * s); ctx.lineTo(opX - 98 * s, circuitY + 118 * s); ctx.stroke();
+            ctx.lineWidth = 2.5;
 
-            // Output Wire
-            ctx.beginPath(); ctx.strokeStyle = colorMagenta; ctx.shadowBlur=8; ctx.shadowColor=colorMagenta; ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.strokeStyle = colorMagenta;
+            ctx.setLineDash([5, 5]);
             ctx.lineDashOffset = -time * (simState.Vout2_actual * 3 + 5);
-            ctx.moveTo(opX + 45 * s, opOutY); ctx.lineTo(mcuX, opOutY); ctx.stroke();
-            ctx.setLineDash([]); ctx.strokeStyle = colorWire; ctx.shadowBlur=0;
+            ctx.moveTo(opX + 45 * s, opOutY); 
+            ctx.lineTo(mcuX, opOutY); 
+            ctx.stroke();
+            ctx.setLineDash([]); ctx.strokeStyle = colorWire; 
             
-            ctx.fillStyle = colorMagenta; ctx.font = 'bold 11px "Fira Code"';
-            ctx.fillText(`${simState.Vout2_actual.toFixed(2)}V`, opX + 55 * s, opOutY - 6 * s);
+            ctx.fillStyle = colorMagenta; ctx.font = 'bold 10px Arial';
+            ctx.fillText(`Vout2=${simState.Vout2_actual.toFixed(2)}V`, opX + 55 * s, opOutY - 5 * s);
 
-            // MCU (Cyberpunk CPU look)
-            ctx.fillStyle = '#020617'; ctx.fillRect(mcuX, circuitY - 35 * s, 85 * s, 105 * s);
-            ctx.strokeStyle = '#475569'; ctx.lineWidth = 2; ctx.strokeRect(mcuX, circuitY - 35 * s, 85 * s, 105 * s);
+            ctx.fillStyle = '#0f172a'; ctx.fillRect(mcuX, circuitY - 35 * s, 85 * s, 105 * s);
+            ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 1.8; ctx.strokeRect(mcuX, circuitY - 35 * s, 85 * s, 105 * s);
             
-            ctx.fillStyle = '#334155';
+            ctx.fillStyle = '#cbd5e1';
             for(let i=0; i<4; i++) {
-                ctx.fillRect(mcuX - 6 * s, circuitY - 18 * s + (i * 20 * s), 6 * s, 4 * s); 
-                ctx.fillRect(mcuX + 85 * s, circuitY - 18 * s + (i * 20 * s), 6 * s, 4 * s); 
+                ctx.fillRect(mcuX - 5 * s, circuitY - 18 * s + (i * 20 * s), 5 * s, 4 * s); 
+                ctx.fillRect(mcuX + 85 * s, circuitY - 18 * s + (i * 20 * s), 5 * s, 4 * s); 
             }
-            ctx.fillStyle = colorMagenta; ctx.fillRect(mcuX - 6 * s, opOutY - 2 * s, 6 * s, 4 * s);
-            ctx.shadowBlur=10; ctx.shadowColor=colorMagenta; ctx.fillRect(mcuX - 6 * s, opOutY - 2 * s, 6 * s, 4 * s); ctx.shadowBlur=0;
-            
-            ctx.fillStyle = '#cbd5e1'; ctx.font = 'bold 9px Arial'; ctx.fillText('ADC_IN', mcuX + 8 * s, opOutY + 3 * s);
-            ctx.fillStyle = '#475569'; ctx.font = 'bold 11px Arial'; ctx.fillText('MCU CORE', mcuX + 10 * s, circuitY - 16 * s);
+            ctx.fillStyle = colorMagenta; ctx.fillRect(mcuX - 5 * s, opOutY - 2 * s, 5 * s, 4 * s);
+            ctx.fillStyle = '#38bdf8'; ctx.font = 'bold 9px Arial'; ctx.fillText('Pin ADC', mcuX + 8 * s, opOutY + 3 * s);
+            ctx.fillStyle = '#94a3b8'; ctx.font = 'bold 10px Arial'; ctx.fillText('MCU CORE', mcuX + 12 * s, circuitY - 18 * s);
 
-            // Oscilloscope
-            const scopeX = splitX + 20, scopeW = cw - scopeX - 45, scopeH = ch - 50, scopeCenterY = 25 + scopeH / 2;
-            
-            // Scope Body Glassmorphism
-            ctx.fillStyle = 'rgba(15, 23, 42, 0.8)'; ctx.fillRect(scopeX, 20, scopeW, scopeH + 10);
-            ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 1; ctx.strokeRect(scopeX, 20, scopeW, scopeH + 10);
+            // 2. LAYAR OSCILLOSCOPE
+            const scopeX = splitX + 20;
+            const scopeW = cw - scopeX - 45; 
+            const scopeH = ch - 50;
+            const scopeCenterY = 25 + scopeH / 2;
 
-            // CRT Screen
-            const screenX = scopeX + 20, screenW = scopeW - 40, screenH = scopeH - 60, screenCenterY = 25 + screenH / 2 + 10;
-            ctx.fillStyle = '#021814'; ctx.fillRect(screenX, 35, screenW, screenH);
-            ctx.strokeStyle = '#059669'; ctx.lineWidth = 1.5; ctx.strokeRect(screenX, 35, screenW, screenH);
-            ctx.shadowBlur = 10; ctx.shadowColor = '#059669'; ctx.strokeRect(screenX, 35, screenW, screenH); ctx.shadowBlur = 0;
+            ctx.fillStyle = '#1e293b'; 
+            ctx.fillRect(scopeX, 20, scopeW, scopeH + 10);
+            ctx.strokeStyle = '#334155'; ctx.lineWidth = 4;
+            ctx.strokeRect(scopeX, 20, scopeW, scopeH + 10);
+
+            const screenX = scopeX + 20;
+            const screenW = scopeW - 40;
+            const screenH = scopeH - 60;
+            const screenCenterY = 25 + screenH / 2 + 10;
+
+            ctx.fillStyle = '#022c22'; 
+            ctx.fillRect(screenX, 35, screenW, screenH);
+            ctx.strokeStyle = '#047857'; ctx.lineWidth = 2.5;
+            ctx.strokeRect(screenX, 35, screenW, screenH);
             
             ctx.lineWidth = 0.5; ctx.strokeStyle = 'rgba(16, 185, 129, 0.15)';
-            for(let gx = screenX; gx <= screenX + screenW; gx += 30) { ctx.beginPath(); ctx.moveTo(gx, 35); ctx.lineTo(gx, 35 + screenH); ctx.stroke(); }
-            for(let gy = 35; gy <= 35 + screenH; gy += 30) { ctx.beginPath(); ctx.moveTo(screenX, gy); ctx.lineTo(screenX + screenW, gy); ctx.stroke(); }
+            for(let gx = screenX; gx <= screenX + screenW; gx += 30) {
+                ctx.beginPath(); ctx.moveTo(gx, 35); ctx.lineTo(gx, 35 + screenH); ctx.stroke();
+            }
+            for(let gy = 35; gy <= 35 + screenH; gy += 30) {
+                ctx.beginPath(); ctx.moveTo(screenX, gy); ctx.lineTo(screenX + screenW, gy); ctx.stroke();
+            }
             
-            ctx.strokeStyle = 'rgba(16, 185, 129, 0.5)'; ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(16, 185, 129, 0.45)'; ctx.lineWidth = 1.5;
             ctx.beginPath(); ctx.moveTo(screenX, screenCenterY); ctx.lineTo(screenX + screenW, screenCenterY); ctx.stroke();
+
             ctx.beginPath(); ctx.moveTo(screenX + screenW/2, 35); ctx.lineTo(screenX + screenW/2, 35 + screenH); ctx.stroke();
 
-            ctx.fillStyle = '#10B981'; ctx.font = '9px "Fira Code"';
-            ctx.fillText('0V REF', screenX + 6, screenCenterY - 4);
-            ctx.fillText('TIME →', screenX + screenW - 45, screenCenterY - 4);
+            ctx.fillStyle = '#34d399'; ctx.font = '9px monospace';
+            ctx.fillText('REF GND (0V)', screenX + 6, screenCenterY - 4);
+            ctx.fillText('Waktu (t) →', screenX + screenW - 75, screenCenterY - 4);
+
             ctx.fillStyle = colorMagenta; ctx.fillText('CH1 (Pink): Vout2', screenX + 10, 48);
-            ctx.fillStyle = colorCyan; ctx.fillText('CH2 (Cyan): Vout1', screenX + 140, 48);
+            ctx.fillStyle = colorCyan; ctx.fillText('CH2 (Cyan): Vout1', screenX + 130, 48);
 
-            const maxVolts = 12.0, pixelPerVolt = (screenH / 2.3) / maxVolts;
-            const waveAmp1 = simState.Vout1 * pixelPerVolt, waveAmp2 = simState.Vout2_theo * pixelPerVolt, waveClip = simState.Vsat * pixelPerVolt;
+            const maxVolts = 12.0; 
+            const pixelPerVolt = (screenH / 2.3) / maxVolts;
 
-            // Render CH2 (Cyan)
-            ctx.beginPath(); ctx.strokeStyle = colorCyan; ctx.lineWidth = 2; ctx.shadowBlur = 8; ctx.shadowColor = colorCyan;
+            const waveAmp1 = simState.Vout1 * pixelPerVolt;
+            const waveAmp2 = simState.Vout2_theo * pixelPerVolt;
+            const waveClip = simState.Vsat * pixelPerVolt;
+
+            ctx.beginPath();
+            ctx.strokeStyle = colorCyan;
+            ctx.lineWidth = 2;
+            ctx.shadowBlur = 6; ctx.shadowColor = colorCyan;
             for(let x = screenX; x <= screenX + screenW; x += 2) {
                 const yOffset = Math.sin((x - time * 45) * 0.04) * waveAmp1;
-                if(x === screenX) ctx.moveTo(x, screenCenterY - yOffset); else ctx.lineTo(x, screenCenterY - yOffset);
+                if(x === screenX) ctx.moveTo(x, screenCenterY - yOffset);
+                else ctx.lineTo(x, screenCenterY - yOffset);
             }
             ctx.stroke();
 
-            // Render CH1 (Magenta)
-            ctx.beginPath(); ctx.strokeStyle = simState.isClipped ? '#FF2A2A' : colorMagenta; ctx.lineWidth = 2.5;
-            ctx.shadowBlur = simState.isClipped ? 15 : 10; ctx.shadowColor = simState.isClipped ? '#FF2A2A' : colorMagenta;
+            ctx.beginPath();
+            ctx.strokeStyle = simState.isClipped ? '#EF4444' : colorMagenta;
+            ctx.lineWidth = 2.5;
+            ctx.shadowBlur = simState.isClipped ? 12 : 8; 
+            ctx.shadowColor = simState.isClipped ? '#EF4444' : colorMagenta;
             for(let x = screenX; x <= screenX + screenW; x += 2) {
                 let yOffset = Math.sin((x - time * 45) * 0.04) * waveAmp2;
                 if(simState.isClipped) {
                     if(yOffset > waveClip) yOffset = waveClip;
                     if(yOffset < -waveClip) yOffset = -waveClip;
                 }
-                if(x === screenX) ctx.moveTo(x, screenCenterY - yOffset); else ctx.lineTo(x, screenCenterY - yOffset);
+                if(x === screenX) ctx.moveTo(x, screenCenterY - yOffset);
+                else ctx.lineTo(x, screenCenterY - yOffset);
             }
-            ctx.stroke(); ctx.shadowBlur = 0;
+            ctx.stroke();
+            ctx.shadowBlur = 0; 
 
-            const termY = 20 + scopeH - 18, termCH1_X = scopeX + 60, termCH2_X = scopeX + 140;
-            ctx.fillStyle = '#94a3b8'; ctx.font = 'bold 9px Arial';
-            ctx.fillText('CH1 IN', termCH1_X - 16, termY - 12); ctx.fillText('CH2 IN', termCH2_X - 16, termY - 12);
+            const termY = 20 + scopeH - 18;
+            const termCH1_X = scopeX + 60;
+            const termCH2_X = scopeX + 140;
+
+            ctx.fillStyle = '#64748b'; ctx.font = 'bold 9px Arial';
+            ctx.fillText('CH1 INPUT', termCH1_X - 22, termY - 12);
+            ctx.fillText('CH2 INPUT', termCH2_X - 22, termY - 12);
+
+            // 3. MENGGAMBAR KABEL PROBE
+            ctx.beginPath();
+            ctx.strokeStyle = colorCyan;
+            ctx.lineWidth = 2.5;
+            ctx.setLineDash([4, 4]);
             
-            // Probes
-            ctx.beginPath(); ctx.strokeStyle = colorCyan; ctx.lineWidth = 2; ctx.setLineDash([3, 3]);
-            ctx.moveTo(divX, Vout1_node); ctx.lineTo(divX + 60*s, Vout1_node); ctx.lineTo(divX + 60*s, ch - 12); ctx.lineTo(termCH2_X, ch - 12); ctx.lineTo(termCH2_X, termY); ctx.stroke();
-            ctx.setLineDash([]);
-            ctx.beginPath(); ctx.arc(termCH2_X, termY, 5, 0, Math.PI*2); ctx.fillStyle = '#0f172a'; ctx.fill(); ctx.strokeStyle=colorCyan; ctx.stroke();
+            const p1_startX = divX;
+            const p1_startY = Vout1_node;
+            const p1_dropX = divX + 60 * s;
+            const p1_endX = termCH2_X;
+            const p1_endY = termY;
+            const p1_trackY = ch - 13; 
             
-            ctx.beginPath(); ctx.strokeStyle = colorMagenta; ctx.lineWidth = 2; ctx.setLineDash([3, 3]);
-            ctx.moveTo(opX + 45*s, opOutY); ctx.lineTo(opX + 60*s, opOutY); ctx.lineTo(opX + 60*s, ch - 22); ctx.lineTo(termCH1_X, ch - 22); ctx.lineTo(termCH1_X, termY); ctx.stroke();
-            ctx.setLineDash([]);
-            ctx.beginPath(); ctx.arc(termCH1_X, termY, 5, 0, Math.PI*2); ctx.fillStyle = '#0f172a'; ctx.fill(); ctx.strokeStyle=colorMagenta; ctx.stroke();
+            ctx.moveTo(p1_startX, p1_startY);
+            ctx.lineTo(p1_dropX, p1_startY);
+            ctx.lineTo(p1_dropX, p1_trackY);
+            ctx.lineTo(p1_endX, p1_trackY);
+            ctx.lineTo(p1_endX, p1_endY);
+            ctx.stroke();
+            ctx.setLineDash([]); 
+            
+            ctx.beginPath(); ctx.arc(p1_startX, p1_startY, 4.5, 0, Math.PI*2); ctx.fillStyle = colorCyan; ctx.fill();
+            ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.stroke();
+            ctx.beginPath(); ctx.arc(p1_endX, p1_endY, 6, 0, Math.PI*2); ctx.fillStyle = '#1e293b'; ctx.fill();
+            ctx.strokeStyle = colorCyan; ctx.lineWidth = 2; ctx.stroke();
+            ctx.beginPath(); ctx.arc(p1_endX, p1_endY, 2, 0, Math.PI*2); ctx.fillStyle = '#fff'; ctx.fill();
+
+            ctx.beginPath();
+            ctx.strokeStyle = colorMagenta;
+            ctx.lineWidth = 2.5;
+            ctx.setLineDash([4, 4]);
+            
+            const p2_startX = opX + 45 * s;
+            const p2_startY = opOutY;
+            const p2_dropX = opX + 60 * s; 
+            const p2_endX = termCH1_X;
+            const p2_endY = termY;
+            const p2_trackY = ch - 25; 
+            
+            ctx.moveTo(p2_startX, p2_startY);
+            ctx.lineTo(p2_dropX, p2_startY);
+            ctx.lineTo(p2_dropX, p2_trackY);
+            ctx.lineTo(p2_endX, p2_trackY);
+            ctx.lineTo(p2_endX, p2_endY);
+            ctx.stroke();
+            ctx.setLineDash([]); 
+            
+            ctx.beginPath(); ctx.arc(p2_startX, p2_startY, 4.5, 0, Math.PI*2); ctx.fillStyle = colorMagenta; ctx.fill();
+            ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.stroke();
+            ctx.beginPath(); ctx.arc(p2_endX, p2_endY, 6, 0, Math.PI*2); ctx.fillStyle = '#1e293b'; ctx.fill();
+            ctx.strokeStyle = colorMagenta; ctx.lineWidth = 2; ctx.stroke();
+            ctx.beginPath(); ctx.arc(p2_endX, p2_endY, 2, 0, Math.PI*2); ctx.fillStyle = '#fff'; ctx.fill();
 
             animationId = requestAnimationFrame(animateCanvas);
         }
 
         // --- STEP GUIDE WIZARD ---
         function updateGuide() {
-            UI.guide.text.textContent = `${currentGuideStep + 1}/${guideSteps.length}`;
+            UI.guide.text.textContent = `Langkah ${currentGuideStep + 1} dari ${guideSteps.length}`;
             UI.guide.content.textContent = guideSteps[currentGuideStep];
             UI.guide.btnPrev.disabled = currentGuideStep === 0;
-            UI.guide.btnNext.textContent = currentGuideStep === guideSteps.length - 1 ? "SELESAI" : "LANJUT";
+            
+            if(currentGuideStep === guideSteps.length - 1) {
+                UI.guide.btnNext.textContent = "Selesai";
+            } else {
+                UI.guide.btnNext.textContent = "Lanjut";
+            }
         }
 
         // --- DATA RECORDING & TABLE ---
         function recordData() {
             playClickSound('record');
+            
             const newRecord = {
-                no: recordedData.length + 1, vin: simState.Vin.toFixed(1), r1: simState.R1, r2: simState.R2,
-                vout1: simState.Vout1.toFixed(2), rf: simState.Rf, rg: simState.Rg, gain: simState.Gain.toFixed(2),
-                vout2: simState.Vout2_actual.toFixed(2), status: simState.isClipped ? `SAT (${simState.Vsat}V)` : 'OK', isClipped: simState.isClipped
+                no: recordedData.length + 1,
+                vin: simState.Vin.toFixed(1),
+                r1: simState.R1,
+                r2: simState.R2,
+                vout1: simState.Vout1.toFixed(2),
+                rf: simState.Rf,
+                rg: simState.Rg,
+                gain: simState.Gain.toFixed(2),
+                vout2: simState.Vout2_actual.toFixed(2),
+                status: simState.isClipped ? `Saturasi (${simState.Vsat}V)` : 'Normal',
+                isClipped: simState.isClipped
             };
+            
             recordedData.push(newRecord);
             updateTable();
             
             const origText = UI.sim.btnRecord.innerHTML;
-            UI.sim.btnRecord.innerHTML = '<span class="text-[11px] font-extrabold tracking-wide uppercase text-white">TERSIMPAN!</span>';
-            UI.sim.btnRecord.classList.replace('from-cyan-500', 'from-green-500'); UI.sim.btnRecord.classList.replace('to-blue-600', 'to-emerald-600');
-            UI.sim.btnRecord.classList.replace('hover:shadow-neon-cyan', 'hover:shadow-[0_0_15px_#10B981]');
+            UI.sim.btnRecord.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="text-xs font-bold leading-tight ml-1">Tersimpan!</span>';
+            UI.sim.btnRecord.classList.replace('from-cyan', 'from-green-500');
+            UI.sim.btnRecord.classList.replace('to-blue-500', 'to-emerald-500');
             
             setTimeout(() => {
                 UI.sim.btnRecord.innerHTML = origText;
-                UI.sim.btnRecord.classList.replace('from-green-500', 'from-cyan-500'); UI.sim.btnRecord.classList.replace('to-emerald-600', 'to-blue-600');
-                UI.sim.btnRecord.classList.replace('hover:shadow-[0_0_15px_#10B981]', 'hover:shadow-neon-cyan');
+                UI.sim.btnRecord.classList.replace('from-green-500', 'from-cyan');
+                UI.sim.btnRecord.classList.replace('to-emerald-500', 'to-blue-500');
             }, 1000);
         }
 
@@ -1160,14 +1404,19 @@
                 UI.data.btnExport.disabled = false;
                 
                 UI.data.tbody.innerHTML = recordedData.map((d, index) => `
-                    <tr class="hover:bg-white/5 transition-colors text-gray-200">
-                        <td>${d.no}</td><td>${d.vin}</td><td>${d.r1}</td><td>${d.r2}</td>
-                        <td class="font-bold text-cyan">${d.vout1}</td><td>${d.rf}</td><td>${d.rg}</td>
+                    <tr class="hover:bg-slate transition-colors text-white">
+                        <td>${d.no}</td>
+                        <td>${d.vin}</td>
+                        <td>${d.r1}</td>
+                        <td>${d.r2}</td>
+                        <td class="font-bold text-cyan">${d.vout1}</td>
+                        <td>${d.rf}</td>
+                        <td>${d.rg}</td>
                         <td class="font-bold text-magenta">${d.gain}</td>
-                        <td class="font-bold text-magenta drop-shadow-[0_0_5px_rgba(255,0,60,0.5)]">${d.vout2}</td>
-                        <td class="font-bold ${d.isClipped ? 'text-satred' : 'text-emerald-400'}">${d.status}</td>
+                        <td class="font-bold text-magenta">${d.vout2}</td>
+                        <td class="${d.isClipped ? 'text-satred' : 'text-green-400'}">${d.status}</td>
                         <td>
-                            <button onclick="deleteRecord(${index})" class="text-gray-500 hover:text-satred hover:bg-red-500/10 p-1.5 rounded transition-all" title="Hapus Data">
+                            <button onclick="deleteRecord(${index})" class="text-gray-500 hover:text-satred p-1 rounded transition-colors" title="Hapus Data">
                                 <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             </button>
                         </td>
@@ -1183,32 +1432,32 @@
             const ans2 = document.getElementById('answer-2').value.trim();
 
             if(!ans1 || !ans2 || recordedData.length === 0) {
-                showCustomAlert("Evaluasi Belum Lengkap", "Sistem mendeteksi dataset belum terisi atau matriks analisis masih kosong. Lengkapi parameter sebelum generate dokumen.");
+                showCustomAlert("Eksperimen Belum Lengkap", "Mohon pastikan tabel data memiliki rekaman eksperimen dan jawaban di 'Panduan Analisis' telah dijawab lengkap.");
                 return;
             }
 
             const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
             <head><meta charset='utf-8'><title>Laporan Praktikum</title>
             <style>
-                body { font-family: 'Arial', sans-serif; font-size: 11pt; color: #1e293b; }
-                h1 { text-align: center; color: #020617; font-size: 16pt; margin-bottom: 5px; text-transform: uppercase; }
-                h2 { color: #0f172a; font-size: 12pt; border-bottom: 2px solid #00F0FF; padding-bottom: 5px; margin-top: 25px; text-transform: uppercase; }
-                table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-                th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; font-size: 10pt; }
-                th { background-color: #f1f5f9; color: #020617; font-weight: bold; text-transform: uppercase; font-size: 9pt; }
-                .info-box { background-color: #f8fafc; padding: 15px; border: 1px solid #94a3b8; border-radius: 5px; margin-bottom: 25px; }
-                .answer { color: #020617; font-family: 'Courier New', Courier, monospace; margin-top: 10px; white-space: pre-wrap; background:#f1f5f9; padding:12px; border-left: 4px solid #00F0FF; border-radius: 0 4px 4px 0;}
-                .q-title { font-weight: bold; margin-bottom: 8px; color: #0f172a;}
+                body { font-family: 'Arial', sans-serif; font-size: 11pt; }
+                h1 { text-align: center; color: #0F172A; font-size: 16pt; margin-bottom: 5px; }
+                h2 { color: #1E293B; font-size: 12pt; border-bottom: 1px solid #06B6D4; padding-bottom: 5px; margin-top: 20px;}
+                table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                th, td { border: 1px solid #334155; padding: 6px; text-align: center; font-size: 10pt; }
+                th { background-color: #f1f5f9; color: #0F172A; font-weight: bold; }
+                .info-box { background-color: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; margin-bottom: 20px; }
+                .answer { color: #000; font-family: 'Courier New', Courier, monospace; margin-top: 5px; white-space: pre-wrap; background:#f4f4f5; padding:8px;}
+                .q-title { font-weight: bold; margin-bottom: 5px;}
             </style>
             </head><body>`;
 
             const userInfo = `
-                <h1>DOKUMEN TELEMETRI VIRTUAL LAB</h1>
-                <p style="text-align: center; margin-top:0; color:#475569;"><strong>Pengondisi Sinyal Sensor Robotik (Pembagi Tegangan & Op-Amp)</strong></p>
+                <h1>LAPORAN PRAKTIKUM VIRTUAL</h1>
+                <p style="text-align: center; margin-top:0;"><strong>Pengondisi Sinyal Sensor Robotik (Pembagi Tegangan & Op-Amp)</strong></p>
                 <div class="info-box">
-                    <p><strong>Operator Sistem:</strong> ${userData.nama}</p>
-                    <p><strong>Afiliasi Institusi:</strong> ${userData.sekolah}</p>
-                    <p><strong>Timestamp Log:</strong> ${new Date().toLocaleString('id-ID')}</p>
+                    <p><strong>Nama Lengkap:</strong> ${userData.nama}</p>
+                    <p><strong>Asal Sekolah:</strong> ${userData.sekolah}</p>
+                    <p><strong>Tanggal Praktikum:</strong> ${new Date().toLocaleDateString('id-ID')}</p>
                 </div>
             `;
 
@@ -1221,7 +1470,7 @@
             `).join('');
 
             const tableHtml = `
-                <h2>1. Matriks Data Eksperimen</h2>
+                <h2>1. Data Hasil Simulasi Eksperimen</h2>
                 <table>
                     <thead>
                         <tr>
@@ -1235,27 +1484,24 @@
             `;
 
             const analysisHtml = `
-                <h2>2. Evaluasi & Solusi Rekayasa</h2>
-                <div style="margin-bottom: 20px;">
+                <h2>2. Analisis & Evaluasi</h2>
+                <div style="margin-bottom: 15px;">
                     <p class="q-title">Studi Kasus 1: Analisis Pembagi Tegangan & Efisiensi ADC</p>
-                    <p style="font-size: 10pt; color: #475569;">Sebuah robot penjelajah menggunakan sensor cahaya LDR sebagai R<sub>2</sub> dalam rangkaian pembagi tegangan dengan hambatan linier R<sub>1</sub> = 4000 &Omega; dan V<sub>in</sub> = 5 V. Saat robot memasuki lorong yang sangat gelap, nilai hambatan LDR anjlok menjadi 1000 &Omega;.<br>
-                    a) Hitunglah secara runut nilai tegangan keluaran V<sub>out1</sub> yang dihasilkan!<br>
-                    b) Mengapa nilai tegangan V<sub>out1</sub> tersebut tidak efisien jika langsung dihubungkan ke pin ADC mikrokontroler? Jelaskan dampaknya!</p>
-                    <p><strong>Log Analisis:</strong></p>
+                    <p>Sebuah robot penjelajah menggunakan sensor cahaya LDR sebagai R<sub>2</sub> dalam rangkaian pembagi tegangan dengan hambatan linier R<sub>1</sub> = 4000 &Omega; dan V<sub>in</sub> = 5 V. Saat robot memasuki lorong yang sangat gelap, nilai hambatan LDR anjlok menjadi 1000 &Omega;.</p>
+                    <p>a) Hitunglah secara runut nilai tegangan keluaran V<sub>out1</sub> yang dihasilkan!<br>b) Mengapa nilai tegangan V<sub>out1</sub> tersebut tidak efisien jika langsung dihubungkan ke pin ADC mikrokontroler? Jelaskan dampaknya!</p>
+                    <p><strong>Jawaban:</strong></p>
                     <div class="answer">${ans1}</div>
                 </div>
                 <div>
                     <p class="q-title">Studi Kasus 2: Solusi Rekayasa & Evaluasi Efek Saturasi</p>
-                    <p style="font-size: 10pt; color: #475569;">Berdasarkan pengamatan pada simulasi, jika nilai V<sub>out1</sub> = 1.67 V dan batas catu daya Op-Amp (V<sub>sat</sub>) adalah 5 Volt... Sebagai seorang <i>Robot Software Architect</i>:<br>
-                    a) Hitunglah angka Gain maksimal yang ideal!<br>
-                    b) Tentukan nilai Resistor Feedback (R<sub>f</sub>) yang harus dipasang jika R<sub>g</sub> bernilai tetap 2000 &Omega;!<br>
-                    c) Apa konsekuensi logis pada respons robot jika distorsi saturasi dibiarkan?</p>
-                    <p><strong>Solusi Rekayasa:</strong></p>
+                    <p>Berdasarkan pengamatan pada simulasi, jika nilai V<sub>out1</sub> = 1.67 V dan batas catu daya Op-Amp (V<sub>sat</sub>) adalah 5 Volt... Sebagai seorang <i>Robot Software Architect</i>:</p>
+                    <p>a) Hitunglah angka Gain maksimal yang ideal!<br>b) Tentukan nilai Resistor Feedback (R<sub>f</sub>) yang harus dipasang jika R<sub>g</sub> bernilai tetap 2000 &Omega;!<br>c) Apa konsekuensi logis pada respons robot jika distorsi saturasi dibiarkan?</p>
+                    <p><strong>Jawaban / Solusi Rekayasa:</strong></p>
                     <div class="answer">${ans2}</div>
                 </div>
                 
-                <p style="text-align: center; font-size: 8pt; color: #94a3b8; margin-top: 50px;">
-                    Generated by SignalLab Telemetry System.
+                <p style="text-align: center; font-size: 9pt; color: #64748B; margin-top: 40px;">
+                    Dibuat oleh: Wahyudi - pakwahyudi.indonesia@gmail.com
                 </p>
             `;
 
@@ -1266,8 +1512,10 @@
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `Log_SignalLab_${userData.nama.replace(/\s+/g, '_')}.doc`;
-            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            link.download = `Laporan_LabMaya_${userData.nama.replace(/\s+/g, '_')}.doc`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         // --- EVENT LISTENERS ---
@@ -1277,14 +1525,16 @@
             UI.login.btn.addEventListener('click', handleLogin);
             UI.app.btnLogout.addEventListener('click', handleLogout);
             
-            UI.sidebar.btnToggle.addEventListener('click', () => {
-                playClickSound(); UI.sidebar.el.classList.toggle('sidebar-collapsed');
+            // Event Listener untuk Tombol Audio
+            btnMusic.addEventListener('click', () => {
+                playClickSound();
+                toggleMusic();
             });
 
-            const btnBgm = document.getElementById('btn-bgm');
-            const sliderBgmVol = document.getElementById('slider-bgm-vol');
-            btnBgm.addEventListener('click', toggleBGM);
-            sliderBgmVol.addEventListener('input', (e) => updateBgmVolume(e.target.value));
+            UI.sidebar.btnToggle.addEventListener('click', () => {
+                playClickSound();
+                UI.sidebar.el.classList.toggle('sidebar-collapsed');
+            });
 
             const sliders = [UI.sim.slVin, UI.sim.slR1, UI.sim.slR2, UI.sim.slRf, UI.sim.slRg];
             sliders.forEach(sl => sl.addEventListener('input', calculatePhysics));
@@ -1293,18 +1543,30 @@
             UI.sim.btnRecord.addEventListener('click', recordData);
             UI.data.btnExport.addEventListener('click', exportToWord);
 
-            UI.guide.btnClose.addEventListener('click', () => { playClickSound(); UI.guide.panel.classList.add('hidden'); });
+            UI.guide.btnClose.addEventListener('click', () => {
+                playClickSound();
+                UI.guide.panel.classList.add('hidden');
+            });
             UI.guide.btnPrev.addEventListener('click', () => {
-                playClickSound(); if(currentGuideStep > 0) { currentGuideStep--; updateGuide(); }
+                playClickSound();
+                if(currentGuideStep > 0) {
+                    currentGuideStep--;
+                    updateGuide();
+                }
             });
             UI.guide.btnNext.addEventListener('click', () => {
                 playClickSound();
-                if(currentGuideStep < guideSteps.length - 1) { currentGuideStep++; updateGuide(); } 
-                else { UI.guide.panel.classList.add('hidden'); }
+                if(currentGuideStep < guideSteps.length - 1) {
+                    currentGuideStep++;
+                    updateGuide();
+                } else {
+                    UI.guide.panel.classList.add('hidden');
+                }
             });
         }
 
         window.addEventListener('DOMContentLoaded', initApp);
+
     </script>
 </body>
 </html>
