@@ -15,7 +15,7 @@
                         navy: '#0F172A',
                         slate: '#1E293B',
                         cyan: '#06B6D4',
-                        magenta: '#D946EF',
+                        amber: '#F59E0B',
                         charcoal: '#334155',
                         satred: '#EF4444'
                     },
@@ -98,9 +98,9 @@
             outline: none;
         }
         
-        .slider-magenta::-webkit-slider-thumb {
-            background: #D946EF;
-            box-shadow: 0 0 8px rgba(217,70,239,0.5);
+        .slider-amber::-webkit-slider-thumb {
+            background: #F59E0B;
+            box-shadow: 0 0 8px rgba(245,158,11,0.5);
         }
         
         /* Volume Slider Customization */
@@ -289,8 +289,8 @@
 
                             <p>Untuk mengatasi kelemahan sinyal yang lemah, digunakan rangkaian <strong>Penguat (Amplifier)</strong> berbasis <em>Operational Amplifier</em> (Op-Amp) dengan konfigurasi <em>Non-Inverting Amplifier</em>. Penguat ini berfungsi menaikkan amplitudo sinyal analog tanpa membalik polaritasnya, sehingga sensitivitas pembacaan sensor pada robot meningkat tajam.</p>
 
-                            <div class="box-info p-4 rounded-lg my-4 border-l-4 border-magenta shadow-lg">
-                                <h4 class="font-bold text-magenta mb-2 text-sm">Rumus Penguat Non-Inverting (Op-Amp)</h4>
+                            <div class="box-info p-4 rounded-lg my-4 border-l-4 border-amber shadow-lg">
+                                <h4 class="font-bold text-amber mb-2 text-sm">Rumus Penguat Non-Inverting (Op-Amp)</h4>
                                 <p class="mb-2 text-xs">Faktor Penguatan Tegangan (Gain, A<sub>v</sub>):</p>
                                 <div class="text-center text-lg my-2 text-white font-mono">
                                     A<sub>v</sub> = 1 + (R<sub>f</sub> / R<sub>g</sub>)
@@ -304,14 +304,14 @@
                             <div class="bg-slate p-3 rounded mt-4 text-xs">
                                 <h5 class="font-bold text-white mb-2">Keterangan Variabel:</h5>
                                 <ul class="grid grid-cols-2 gap-2">
-                                    <li><span class="text-cyan">V<sub>in</sub></span> = Tegangan input sumber (Volt)</li>
-                                    <li><span class="text-cyan">R<sub>1</sub></span> = Resistor tetap linier (&Omega;)</li>
-                                    <li><span class="text-cyan">R<sub>2</sub></span> = Resistor sensor/variabel (&Omega;)</li>
-                                    <li><span class="text-cyan">V<sub>out1</sub></span> = Tegangan output pembagi (Volt)</li>
-                                    <li><span class="text-magenta">R<sub>f</sub></span> = Resistor umpan balik / feedback (&Omega;)</li>
-                                    <li><span class="text-magenta">R<sub>g</sub></span> = Resistor pembumian / ground (&Omega;)</li>
-                                    <li><span class="text-magenta">A<sub>v</sub></span> = Faktor kelipatan penguatan</li>
-                                    <li><span class="text-magenta">V<sub>out2</sub></span> = Tegangan output akhir ke ADC (Volt)</li>
+                                    <li><span class="text-cyan font-bold">V<sub>in</sub></span> = Tegangan input sumber (Volt)</li>
+                                    <li><span class="text-cyan font-bold">R<sub>1</sub></span> = Resistor tetap linier (&Omega;)</li>
+                                    <li><span class="text-cyan font-bold">R<sub>2</sub></span> = Resistor sensor/variabel (&Omega;)</li>
+                                    <li><span class="text-cyan font-bold">V<sub>out1</sub></span> = Tegangan output pembagi (Volt)</li>
+                                    <li><span class="text-amber font-bold">R<sub>f</sub></span> = Resistor umpan balik / feedback (&Omega;)</li>
+                                    <li><span class="text-amber font-bold">R<sub>g</sub></span> = Resistor pembumian / ground (&Omega;)</li>
+                                    <li><span class="text-amber font-bold">A<sub>v</sub></span> = Faktor kelipatan penguatan</li>
+                                    <li><span class="text-amber font-bold">V<sub>out2</sub></span> = Tegangan output akhir ke ADC (Volt)</li>
                                 </ul>
                             </div>
                         </div>
@@ -324,11 +324,11 @@
                             <ol class="list-decimal list-inside space-y-3 text-gray-300 text-sm">
                                 <li class="pl-2">Buka menu <strong>Lab Maya</strong> untuk memulai simulasi sirkuit.</li>
                                 <li class="pl-2">Ikuti petunjuk awal dari <em>Step Guide Wizard</em> yang muncul di atas kanvas simulasi.</li>
-                                <li class="pl-2">Atur nilai tegangan sumber (<span class="text-cyan">V<sub>in</sub></span>) pada 5.0 Volt.</li>
-                                <li class="pl-2">Atur nilai Resistor Tetap (<span class="text-cyan">R<sub>1</sub></span>) dan Resistor Sensor (<span class="text-cyan">R<sub>2</sub></span>) menggunakan slider pada panel kontrol. Amati perubahan visual sinyal berwarna Cyan dan catat nilai <span class="text-cyan">V<sub>out1</sub></span>.</li>
-                                <li class="pl-2">Atur batas catu daya Op-Amp (<span class="text-satred">V<sub>sat</sub></span>) pada dropdown yang tersedia.</li>
-                                <li class="pl-2">Lakukan amplifikasi sinyal dengan mengubah nilai Resistor Feedback (<span class="text-magenta">R<sub>f</sub></span>) dan Resistor Ground (<span class="text-magenta">R<sub>g</sub></span>).</li>
-                                <li class="pl-2">Amati perubahan amplitudo gelombang keluaran akhir yang berwarna Magenta. Perhatikan apakah terjadi <em>clipping</em> (saturasi) jika sinyal melebihi <span class="text-satred">V<sub>sat</sub></span>.</li>
+                                <li class="pl-2">Atur nilai tegangan sumber (<span class="text-cyan font-bold">V<sub>in</sub></span>) pada 5.0 Volt.</li>
+                                <li class="pl-2">Atur nilai Resistor Tetap (<span class="text-cyan font-bold">R<sub>1</sub></span>) dan Resistor Sensor (<span class="text-cyan font-bold">R<sub>2</sub></span>) menggunakan slider pada panel kontrol. Amati perubahan visual sinyal berwarna <span class="text-cyan font-bold">Cyan</span> dan catat nilai <span class="text-cyan font-bold">V<sub>out1</sub></span>.</li>
+                                <li class="pl-2">Atur batas catu daya Op-Amp (<span class="text-amber font-bold">V<sub>sat</sub></span>) pada dropdown yang tersedia.</li>
+                                <li class="pl-2">Lakukan amplifikasi sinyal dengan mengubah nilai Resistor Feedback (<span class="text-amber font-bold">R<sub>f</sub></span>) dan Resistor Ground (<span class="text-amber font-bold">R<sub>g</sub></span>).</li>
+                                <li class="pl-2">Amati perubahan amplitudo gelombang keluaran akhir yang berwarna <span class="text-amber font-bold">Oranye</span>. Perhatikan apakah terjadi <em>clipping</em> (saturasi) jika sinyal melebihi <span class="text-amber font-bold">V<sub>sat</sub></span>.</li>
                                 <li class="pl-2">Klik tombol <strong>"Catat Data ke Tabel"</strong> untuk merekam state variabel saat ini.</li>
                                 <li class="pl-2">Ulangi langkah 4-8 dengan berbagai kombinasi variabel untuk mendapatkan minimal 5 baris data pengamatan.</li>
                                 <li class="pl-2">Buka menu <strong>Pengumpulan Data</strong> untuk meninjau hasil, kemudian jawab pertanyaan mendalam pada menu <strong>Panduan Analisis</strong> untuk men-generate Laporan Doc.</li>
@@ -402,7 +402,7 @@
                                         <!-- Sisi Kiri: Output Akhir (Setengah Lebar) -->
                                         <div class="bg-navy p-1.5 rounded border border-charcoal shadow-inner flex flex-col items-center justify-center">
                                             <div class="text-[9px] text-gray-400 text-center">Out 2 (V_out2)</div>
-                                            <div class="text-lg font-mono text-magenta font-bold leading-none mt-1" id="disp-vout2">0.00 V</div>
+                                            <div class="text-lg font-mono text-amber font-bold leading-none mt-1" id="disp-vout2">0.00 V</div>
                                             <div class="text-[8px] mt-0.5 text-gray-300 font-medium text-center truncate w-full" id="disp-status">Normal</div>
                                         </div>
                                         
@@ -459,20 +459,20 @@
 
                                 <!-- Op-Amp Controls -->
                                 <div class="space-y-1">
-                                    <div class="text-[9px] font-bold text-magenta border-b border-charcoal pb-0.5 uppercase tracking-wider">3. Penguat Op-Amp</div>
+                                    <div class="text-[9px] font-bold text-amber border-b border-charcoal pb-0.5 uppercase tracking-wider">3. Penguat Op-Amp</div>
                                     <div class="space-y-0.5">
                                         <div class="flex justify-between text-[8px] text-gray-400">
                                             <label>Resistor Feedback (R<sub>f</sub>)</label>
                                             <span id="val-rf" class="text-white font-mono bg-navy px-1 py-0.2 rounded border border-charcoal text-[8px]">2000 &Omega;</span>
                                         </div>
-                                        <input type="range" id="slider-rf" class="slider-magenta" min="0" max="20000" step="500" value="2000">
+                                        <input type="range" id="slider-rf" class="slider-amber" min="0" max="20000" step="500" value="2000">
                                     </div>
                                     <div class="space-y-0.5">
                                         <div class="flex justify-between text-[8px] text-gray-400">
                                             <label>Resistor Ground (R<sub>g</sub>)</label>
                                             <span id="val-rg" class="text-white font-mono bg-navy px-1 py-0.2 rounded border border-charcoal text-[8px]">2000 &Omega;</span>
                                         </div>
-                                        <input type="range" id="slider-rg" class="slider-magenta" min="1000" max="10000" step="500" value="2000">
+                                        <input type="range" id="slider-rg" class="slider-amber" min="1000" max="10000" step="500" value="2000">
                                     </div>
                                 </div>
 
@@ -501,8 +501,8 @@
                                             <th class="text-cyan bg-slate-800">Out 1 (V<sub>out1</sub>)</th>
                                             <th>R<sub>f</sub> (&Omega;)</th>
                                             <th>R<sub>g</sub> (&Omega;)</th>
-                                            <th class="text-magenta">Gain (A<sub>v</sub>)</th>
-                                            <th class="text-magenta bg-slate-800">Out 2 (V<sub>out2</sub>)</th>
+                                            <th class="text-amber">Gain (A<sub>v</sub>)</th>
+                                            <th class="text-amber bg-slate-800">Out 2 (V<sub>out2</sub>)</th>
                                             <th>Status Sinyal</th>
                                             <th class="w-12">Aksi</th>
                                         </tr>
@@ -545,7 +545,7 @@
                             <!-- Pertanyaan 2 -->
                             <div class="bg-slate p-4 rounded-lg border border-charcoal shadow-lg">
                                 <div class="flex items-start">
-                                    <div class="bg-magenta text-white font-bold rounded-full w-5 h-5 flex items-center justify-center text-[10px] mr-3 shrink-0 mt-0.5">2</div>
+                                    <div class="bg-amber text-white font-bold rounded-full w-5 h-5 flex items-center justify-center text-[10px] mr-3 shrink-0 mt-0.5">2</div>
                                     <div class="w-full">
                                         <h4 class="font-bold text-white text-sm mb-2">Solusi Rekayasa & Evaluasi Efek Saturasi</h4>
                                         <p class="text-xs text-gray-300 mb-3 text-justify leading-relaxed">
@@ -764,9 +764,9 @@
 
         const guideSteps = [
             "Selamat datang di Kanvas Simulasi. Perhatikan skema: sebelah kiri adalah Pembagi Tegangan (Sensor), tengah adalah Penguat Op-Amp, kanan adalah Mikrokontroler.",
-            "Coba ubah nilai 'Hambatan Sensor (R2)'. Anda mensimulasikan perubahan lingkungan fisik. Perhatikan nilai V_out1 berubah.",
-            "Gelombang Cyan merepresentasikan sinyal mentah yang lemah. Sekarang tingkatkan nilai 'Resistor Feedback (Rf)' untuk memperkuat sinyal.",
-            "Perhatikan gelombang Magenta (V_out2). Jika tingginya melebihi nilai Vsat, grafik akan terpotong rata (Saturasi) dan tanda Op-Amp berkedip merah."
+            "Coba ubah nilai 'Hambatan Sensor (<span class='text-cyan font-bold'>R2</span>)'. Anda mensimulasikan perubahan lingkungan fisik. Perhatikan nilai <span class='text-cyan font-bold'>V_out1</span> berubah.",
+            "Gelombang <span class='text-cyan font-bold'>Cyan</span> merepresentasikan sinyal mentah yang lemah. Sekarang tingkatkan nilai 'Resistor Feedback (<span class='text-amber font-bold'>Rf</span>)' untuk memperkuat sinyal.",
+            "Perhatikan gelombang <span class='text-amber font-bold'>Oranye</span> (<span class='text-amber font-bold'>V_out2</span>). Jika tingginya melebihi nilai <span class='text-amber font-bold'>Vsat</span>, grafik akan terpotong rata (Saturasi) dan tanda Op-Amp berkedip <span class='text-satred font-bold'>merah</span>."
         ];
         let currentGuideStep = 0;
 
@@ -999,7 +999,7 @@
             
             const colorWire = '#94a3b8'; 
             const colorCyan = '#06B6D4';
-            const colorMagenta = '#D946EF';
+            const colorAmber = '#F59E0B';
 
             const divX = splitX * 0.20;
             const opX = splitX * 0.55;
@@ -1032,10 +1032,10 @@
             ctx.fillText('BLOK 1: SENSOR', z1X + z1W / 2, bTextY1);
             ctx.fillText('(PEMBAGI TEGANGAN)', z1X + z1W / 2, bTextY2);
             
-            ctx.fillStyle = 'rgba(217, 70, 239, 0.02)'; ctx.strokeStyle = 'rgba(217, 70, 239, 0.25)';
+            ctx.fillStyle = 'rgba(245, 158, 11, 0.02)'; ctx.strokeStyle = 'rgba(245, 158, 11, 0.25)';
             ctx.fillRect(z2X, bTop, z2W, bHeight); 
             ctx.strokeRect(z2X, bTop, z2W, bHeight);
-            ctx.fillStyle = colorMagenta; 
+            ctx.fillStyle = colorAmber; 
             ctx.fillText('BLOK 2: PENGUAT SINYAL', z2X + z2W / 2, bTextY1);
             ctx.fillText('(OP-AMP)', z2X + z2W / 2, bTextY2);
 
@@ -1135,11 +1135,11 @@
             ctx.fillText('-', opX - 35 * s, opMinusY - 1 * s);
             ctx.font = 'bold 9px Arial'; ctx.fillStyle = '#cbd5e1'; 
             ctx.fillText('Op-Amp', opX - 25 * s, circuitY + 28 * s);
-            ctx.fillStyle = colorMagenta; ctx.font = 'bold 9px Arial';
+            ctx.fillStyle = colorAmber; ctx.font = 'bold 9px Arial';
             ctx.fillText(`Av:${simState.Gain.toFixed(2)}x`, opX - 25 * s, circuitY + 40 * s);
 
             ctx.strokeStyle = colorWire;
-            ctx.beginPath(); ctx.arc(opX + 45 * s, opOutY, 3, 0, Math.PI*2); ctx.fillStyle = colorMagenta; ctx.fill();
+            ctx.beginPath(); ctx.arc(opX + 45 * s, opOutY, 3, 0, Math.PI*2); ctx.fillStyle = colorAmber; ctx.fill();
             ctx.beginPath(); 
             ctx.moveTo(opX + 45 * s, opOutY); 
             ctx.lineTo(opX + 65 * s, opOutY); 
@@ -1148,7 +1148,7 @@
             ctx.stroke();
             
             drawResistor(opX - 59 * s, circuitY - 30 * s, false, s); 
-            ctx.fillStyle = colorMagenta; ctx.font = '9px Courier New';
+            ctx.fillStyle = colorAmber; ctx.font = '9px Courier New';
             ctx.fillText(`Rf=${simState.Rf}Ω`, opX - 45 * s, circuitY - 38 * s);
             
             ctx.beginPath(); 
@@ -1166,7 +1166,7 @@
             ctx.stroke();
             
             drawResistor(opX - 105 * s, circuitY + 10 * s, true, s);
-            ctx.fillStyle = colorMagenta; ctx.font = '9px Courier New';
+            ctx.fillStyle = colorAmber; ctx.font = '9px Courier New';
             ctx.fillText(`Rg=${simState.Rg}Ω`, opX - 98 * s, circuitY + 50 * s);
             
             const Rg_end = circuitY + 94 * s;
@@ -1178,7 +1178,7 @@
             ctx.lineWidth = 2.5;
 
             ctx.beginPath();
-            ctx.strokeStyle = colorMagenta;
+            ctx.strokeStyle = colorAmber;
             ctx.setLineDash([5, 5]);
             ctx.lineDashOffset = -time * (simState.Vout2_actual * 3 + 5);
             ctx.moveTo(opX + 45 * s, opOutY); 
@@ -1186,7 +1186,7 @@
             ctx.stroke();
             ctx.setLineDash([]); ctx.strokeStyle = colorWire; 
             
-            ctx.fillStyle = colorMagenta; ctx.font = 'bold 10px Arial';
+            ctx.fillStyle = colorAmber; ctx.font = 'bold 10px Arial';
             ctx.fillText(`Vout2=${simState.Vout2_actual.toFixed(2)}V`, opX + 55 * s, opOutY - 5 * s);
 
             ctx.fillStyle = '#0f172a'; ctx.fillRect(mcuX, circuitY - 35 * s, 85 * s, 105 * s);
@@ -1197,7 +1197,7 @@
                 ctx.fillRect(mcuX - 5 * s, circuitY - 18 * s + (i * 20 * s), 5 * s, 4 * s); 
                 ctx.fillRect(mcuX + 85 * s, circuitY - 18 * s + (i * 20 * s), 5 * s, 4 * s); 
             }
-            ctx.fillStyle = colorMagenta; ctx.fillRect(mcuX - 5 * s, opOutY - 2 * s, 5 * s, 4 * s);
+            ctx.fillStyle = colorAmber; ctx.fillRect(mcuX - 5 * s, opOutY - 2 * s, 5 * s, 4 * s);
             ctx.fillStyle = '#38bdf8'; ctx.font = 'bold 9px Arial'; ctx.fillText('Pin ADC', mcuX + 8 * s, opOutY + 3 * s);
             ctx.fillStyle = '#94a3b8'; ctx.font = 'bold 10px Arial'; ctx.fillText('MCU CORE', mcuX + 12 * s, circuitY - 18 * s);
 
@@ -1239,7 +1239,7 @@
             ctx.fillText('REF GND (0V)', screenX + 6, screenCenterY - 4);
             ctx.fillText('Waktu (t) →', screenX + screenW - 75, screenCenterY - 4);
 
-            ctx.fillStyle = colorMagenta; ctx.fillText('CH1 (Pink): Vout2', screenX + 10, 48);
+            ctx.fillStyle = colorAmber; ctx.fillText('CH1 (Oranye): Vout2', screenX + 10, 48);
             ctx.fillStyle = colorCyan; ctx.fillText('CH2 (Cyan): Vout1', screenX + 130, 48);
 
             const maxVolts = 12.0; 
@@ -1261,10 +1261,10 @@
             ctx.stroke();
 
             ctx.beginPath();
-            ctx.strokeStyle = simState.isClipped ? '#EF4444' : colorMagenta;
+            ctx.strokeStyle = simState.isClipped ? '#EF4444' : colorAmber;
             ctx.lineWidth = 2.5;
             ctx.shadowBlur = simState.isClipped ? 12 : 8; 
-            ctx.shadowColor = simState.isClipped ? '#EF4444' : colorMagenta;
+            ctx.shadowColor = simState.isClipped ? '#EF4444' : colorAmber;
             for(let x = screenX; x <= screenX + screenW; x += 2) {
                 let yOffset = Math.sin((x - time * 45) * 0.04) * waveAmp2;
                 if(simState.isClipped) {
@@ -1313,7 +1313,7 @@
             ctx.beginPath(); ctx.arc(p1_endX, p1_endY, 2, 0, Math.PI*2); ctx.fillStyle = '#fff'; ctx.fill();
 
             ctx.beginPath();
-            ctx.strokeStyle = colorMagenta;
+            ctx.strokeStyle = colorAmber;
             ctx.lineWidth = 2.5;
             ctx.setLineDash([4, 4]);
             
@@ -1332,10 +1332,10 @@
             ctx.stroke();
             ctx.setLineDash([]); 
             
-            ctx.beginPath(); ctx.arc(p2_startX, p2_startY, 4.5, 0, Math.PI*2); ctx.fillStyle = colorMagenta; ctx.fill();
+            ctx.beginPath(); ctx.arc(p2_startX, p2_startY, 4.5, 0, Math.PI*2); ctx.fillStyle = colorAmber; ctx.fill();
             ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.stroke();
             ctx.beginPath(); ctx.arc(p2_endX, p2_endY, 6, 0, Math.PI*2); ctx.fillStyle = '#1e293b'; ctx.fill();
-            ctx.strokeStyle = colorMagenta; ctx.lineWidth = 2; ctx.stroke();
+            ctx.strokeStyle = colorAmber; ctx.lineWidth = 2; ctx.stroke();
             ctx.beginPath(); ctx.arc(p2_endX, p2_endY, 2, 0, Math.PI*2); ctx.fillStyle = '#fff'; ctx.fill();
 
             animationId = requestAnimationFrame(animateCanvas);
@@ -1344,7 +1344,7 @@
         // --- STEP GUIDE WIZARD ---
         function updateGuide() {
             UI.guide.text.textContent = `Langkah ${currentGuideStep + 1} dari ${guideSteps.length}`;
-            UI.guide.content.textContent = guideSteps[currentGuideStep];
+            UI.guide.content.innerHTML = guideSteps[currentGuideStep];
             UI.guide.btnPrev.disabled = currentGuideStep === 0;
             
             if(currentGuideStep === guideSteps.length - 1) {
@@ -1412,8 +1412,8 @@
                         <td class="font-bold text-cyan">${d.vout1}</td>
                         <td>${d.rf}</td>
                         <td>${d.rg}</td>
-                        <td class="font-bold text-magenta">${d.gain}</td>
-                        <td class="font-bold text-magenta">${d.vout2}</td>
+                        <td class="font-bold text-amber">${d.gain}</td>
+                        <td class="font-bold text-amber">${d.vout2}</td>
                         <td class="${d.isClipped ? 'text-satred' : 'text-green-400'}">${d.status}</td>
                         <td>
                             <button onclick="deleteRecord(${index})" class="text-gray-500 hover:text-satred p-1 rounded transition-colors" title="Hapus Data">
